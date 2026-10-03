@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Private and internal surfaces are not served from this public host.
+Disallow: /console/
+Disallow: /admin/
+Disallow: /internal/
+
+Sitemap: https://www.madventuresholdings.com/sitemap.xml

@@ -1,0 +1,30 @@
+{
+  "theme": {
+    "extend": {
+      "colors": {
+        "canvas": "#0B0D0F",
+        "canvas-2": "#121519",
+        "canvas-3": "#171B20",
+        "navy": "#060912",
+        "stone": "#D8DDE3",
+        "stone-dim": "#AEB6BF",
+        "mist": "#7C868F",
+        "white": "#F5F7FA",
+        "slate": "#1A2233",
+        "steel": "#5E6A82",
+        "accent": "#146BFF",
+        "accent-dim": "#0F56D6"
+      },
+      "borderRadius": {
+        "sm": "2px",
+        "md": "4px",
+        "lg": "8px"
+      },
+      "fontFamily": {
+        "sans": ["Hanken Grotesk", "system-ui", "sans-serif"],
+        "display": ["Hanken Grotesk", "system-ui", "sans-serif"],
+        "mono": ["IBM Plex Mono", "ui-monospace", "monospace"]
+      }
+    }
+  }
+}

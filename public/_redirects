@@ -1,0 +1,23 @@
+# MAD Ventures Holdings LLC — hosting redirects
+#
+# Retired public route. The DecivantIQ venture was sunset and is no longer a
+# MAD Ventures initiative. Both the bare and trailing-slash forms are retired
+# permanently to the companies index.
+#
+# SYNTAX: Cloudflare Pages `_redirects`. The rule is `<from> <to> <status>`.
+# The `!` force modifier is NETLIFIX-only and is NOT supported by Cloudflare
+# Pages — a rule carrying it is ignored. The earlier `301!` was therefore
+# invalid here and has been corrected to plain `301`.
+#
+# The destination carries a trailing slash to match `trailingSlash: true` in
+# next.config.ts, so the redirect does not spend a second hop normalising.
+#
+# STATUS: AUTHORED BUT UNVERIFIED. These rules are only exercised once
+# deployed. The redirect is NOT active on the live domain today.
+#
+# This file must contain no catch-all rule. A `/*` splat would make every
+# unknown path return 200 with the homepage, which would suppress out/404.html
+# and produce indexable soft-404s. Verified by scripts/verify.mjs.
+
+/companies/decivantiq   /companies/   301
+/companies/decivantiq/  /companies/   301

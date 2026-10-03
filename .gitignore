@@ -1,0 +1,23 @@
+node_modules/
+.DS_Store
+*.log
+
+# Next.js build output
+.next/
+out/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Local verification artifacts
+.lighthouseci/
+*.report.json
+*.report.html
+
+# Local Cloudflare CLI state created by wrangler. Never commit.
+.wrangler/
+
+# Credentials and machine-local configuration
+.env
+.env.*
+!.env.example
+.vercel/
