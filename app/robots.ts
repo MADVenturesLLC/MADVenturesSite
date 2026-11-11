@@ -8,6 +8,14 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: [
+        "/console/",
+        "/console/*",
+        "/admin/",
+        "/admin/*",
+        "/internal/",
+        "/internal/*",
+      ],
     },
     sitemap: `${SITE.origin}/sitemap.xml`,
   };
