@@ -67,8 +67,8 @@ const required = [
   "lib/portfolio.ts",
   "lib/verified-claims.ts",
   "public/_redirects",
-  "public/robots.txt",
-  "public/sitemap.xml",
+  "app/robots.ts",
+  "app/sitemap.ts",
   "public/branding/mad-monogram-titanium.svg",
   "brand/mad-ventures/tokens.json",
   "brand/mad-ventures/tokens.css",
@@ -234,7 +234,7 @@ if (!/UNVERIFIED/i.test(redirects)) {
 ok("retired route redirected with Cloudflare Pages syntax (authored; unverified until deployed)");
 
 // Sitemap and robots
-const sitemap = read("public/sitemap.xml");
+const sitemap = read("out/sitemap.xml");
 if (new RegExp(RETIRED, "i").test(sitemap)) fail("retired venture present in sitemap.xml");
 const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 if (locs.length !== slugs.length + 5) {
@@ -247,7 +247,7 @@ for (const loc of locs) {
 }
 ok(`sitemap lists ${locs.length} public URLs, none retired`);
 
-if (!read("public/robots.txt").includes("Sitemap: https://www.madventuresholdings.com/sitemap.xml")) {
+if (!read("out/robots.txt").includes("Sitemap: https://www.madventuresholdings.com/sitemap.xml")) {
   fail("robots.txt does not reference the absolute sitemap URL");
 }
 ok("robots.txt references the sitemap");
