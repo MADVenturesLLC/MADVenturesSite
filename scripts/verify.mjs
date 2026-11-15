@@ -544,14 +544,20 @@ for (const [file, label] of SHIPPED) {
 }
 ok("conflicting Founder quote is not published");
 
-// Build Room and MadOS stay subordinate supporting technology.
+// Build Room, MadOS and Red Social Room stay subordinate supporting technology.
 for (const file of ["app/page.tsx", "app/what-we-do/page.tsx", "app/approach/page.tsx"]) {
   const src = read(file);
-  if (/(build room|mados)/i.test(src) && !/internal/i.test(src)) {
-    fail(`${file}: Build Room / MadOS mentioned without internal framing`);
+  if (/(build room|mados|red social room)/i.test(src) && !/internal/i.test(src)) {
+    fail(`${file}: Build Room / MadOS / Red Social Room mentioned without internal framing`);
   }
 }
-ok("Build Room and MadOS framed as internal, subordinate");
+ok("Build Room, MadOS and Red Social Room framed as internal, subordinate");
+
+// Red Social Room is internal technology, never a venture initiative.
+if (slugs.some((slug) => /red-?social-?room/i.test(slug))) {
+  fail("Red Social Room appears in the public venture list");
+}
+ok("Red Social Room is not listed as a venture initiative");
 
 /* -- 4b. Credential attribution ----------------------------------------- */
 

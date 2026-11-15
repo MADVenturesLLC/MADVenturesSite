@@ -3,32 +3,23 @@ import { Reveal, RevealGroup, RevealItem, StatementReveal } from "@/components/m
 import { INTERNAL_PLATFORMS, SITE, VALUES, VENTURES, ventureHref } from "@/lib/portfolio";
 
 /**
- * Homepage, Concept B: the editorial colophon.
+ * Homepage, Black Concept B. Layout and styling follow DESIGN.md; every word
+ * comes from COPY.md.
  *
- * The masthead carries the identity. The wordmark is set to the full measure of
- * the page, a single heavy cobalt rule cuts the composition, and the four
- * software initiatives read as a printed colophon rather than a card grid or a
- * ruled register.
- *
- * Two deliberate constraints, both learned from review:
- *  - ONE theme for the whole page. The earlier version alternated paper and
- *    ink scenes, which split the brand into two identities.
- *  - ONE invitation. "Start a conversation" is the only contact CTA on the
- *    page; the email appears as plain text, never as a second button.
- *  - Section eyebrows are rationed. The colophon label is the only
- *    uppercase micro-label above a headline; everything else leads with type.
+ * Constraints carried over from earlier review:
+ *  - ONE ground for the whole page.
+ *  - ONE contact invitation, "Start a conversation". The email appears as
+ *    plain text, never as a second button.
+ *  - Reading about the software comes first, so the filled button in the
+ *    masthead leads to the software and the invitation is the text link.
  */
 export default function HomePage() {
   return (
     <>
-      {/* ================================================================
-          Scene 1 — Masthead. The identity is the composition.
-          ================================================================ */}
-      <section className="masthead on-tone tone-paper" aria-labelledby="home-heading">
+      {/* Masthead. The wordmark is a brand mark, not a heading; the page's
+          single h1 is the approved line beneath it. */}
+      <section className="masthead" aria-labelledby="home-heading">
         <div className="shell">
-          {/* The wordmark is a brand mark, not a heading. The page's single
-              h1 is the approved line beneath it. The wrapper is the query
-              container, so the wordmark fills whatever measure it is given. */}
           <div className="wordmark-wrap">
             <p className="wordmark" aria-hidden="true">
               <span>MAD</span>
@@ -36,69 +27,64 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Geometry only. This used to carry a "Four software initiatives"
-              label, but that made five text elements in the hero and repeated
-              the colophon heading one scroll away. The bar and rule are the
-              composition. */}
           <div className="cut" aria-hidden="true">
             <b />
             <i />
           </div>
 
-          <h1 id="home-heading" className="mast__statement">
-            <StatementReveal
-              text={SITE.hero}
-              className="statement-reveal"
-            />
-          </h1>
+          <div className="mast__body">
+            <h1 id="home-heading" className="t-page mast__statement">
+              <StatementReveal
+                text={SITE.hero}
+                className="statement-reveal"
+              />
+            </h1>
 
-          <Reveal delay={0.12}>
-            <p className="mast__sub">
-              Software that helps people understand what matters, decide clearly,
-              and move work forward.
-            </p>
-            <div className="mast__actions">
-              <Link href="/partnership/" className="btn btn-ink">
-                Start a conversation <span className="arrow" aria-hidden="true">&rarr;</span>
-              </Link>
-              <Link href="/companies/" className="link-arrow">
-                See what we&rsquo;re building <span className="arrow" aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-          </Reveal>
+            <Reveal delay={0.12} className="mast__side">
+              <p className="lead mast__sub">
+                Software that helps people understand what matters, decide clearly,
+                and move work forward.
+              </p>
+              <div className="actions">
+                <Link href="/companies/" className="btn btn-primary">
+                  See what we&rsquo;re building <span className="arrow" aria-hidden="true">&rarr;</span>
+                </Link>
+                <Link href="/partnership/" className="text-link">
+                  Start a conversation <span className="arrow" aria-hidden="true">&rarr;</span>
+                </Link>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* ================================================================
-          Scene 2 — The colophon. The only eyebrow on the page, and the one
-          place the four initiatives are listed. Every name is a real link.
-          ================================================================ */}
-      <section className="colophon-band on-tone tone-paper" aria-labelledby="initiatives-heading">
+      {/* The register of four initiatives. */}
+      <section className="register-band" aria-labelledby="initiatives-heading">
         <div className="shell">
           <p className="label" id="initiatives-heading">
             Software initiatives in development
           </p>
 
-          <RevealGroup as="ul" className="colo__list" stagger={0.06}>
+          <RevealGroup as="ul" className="register" stagger={0.06}>
             {VENTURES.map((venture) => (
               <RevealItem as="li" key={venture.slug}>
-                <Link href={ventureHref(venture.slug)} className="colo__item">
-                  <span className="colo__index">{venture.index}</span>
-                  <span className="colo__name">{venture.name}</span>
-                  <span className="colo__purpose">{venture.purpose}</span>
-                  <span className="colo__stage">
+                <Link href={ventureHref(venture.slug)} className="register__row">
+                  <span className="register__index">{venture.index}</span>
+                  <span className="register__name">{venture.name}</span>
+                  <span className="register__meta">
+                    <span className="register__purpose">{venture.purpose}</span>
                     <span className="stage-tag">
                       <span className="stage-tag__dot" aria-hidden="true" />
                       {venture.stage}
                     </span>
                   </span>
-                  <span className="colo__arrow" aria-hidden="true">&rarr;</span>
+                  <span className="register__arrow" aria-hidden="true">&rarr;</span>
                 </Link>
               </RevealItem>
             ))}
           </RevealGroup>
 
-          <p className="colo__note">
+          <p className="note register__note">
             All four are in development and none is available to use today. Each
             states its current stage plainly, including the one whose public
             scope is still being defined.
@@ -106,107 +92,96 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================================================================
-          Scene 3 — What the software is for. No eyebrow: the heading does
-          the work.
-          ================================================================ */}
-      <section className="scene on-tone tone-paper" aria-labelledby="values-heading">
+      {/* The three verbs. */}
+      <section className="section section--rule" aria-labelledby="values-heading">
         <div className="shell">
           <Reveal>
-            <h2 id="values-heading" className="type-heading values__title">
+            <h2 id="values-heading" className="t-heading values__title">
               Software is only useful when it changes what someone does next.
             </h2>
           </Reveal>
 
-          <RevealGroup as="ul" className="verbs" stagger={0.1}>
+          <RevealGroup as="ul" className="cols cols--3" stagger={0.1}>
             {VALUES.map((value) => (
-              <RevealItem as="li" key={value.n} className="verb">
-                <span className="verb__mark" aria-hidden="true" />
+              <RevealItem as="li" key={value.n} className="cols__item">
                 <h3 className="verb__title">
                   {value.title} <span className="verb__lead">{value.lead}</span>
                 </h3>
-                <p className="verb__body">{value.body}</p>
+                <p>{value.body}</p>
               </RevealItem>
             ))}
           </RevealGroup>
         </div>
       </section>
 
-      {/* ================================================================
-          Scene 4 — Founder. Short. No attributed quote is published while the
-          approved one conflicts with the current positioning. See
-          content/withheld-claims.md. The pivot copy below was supplied by the
-          Founder himself.
-          ================================================================ */}
-      <section id="about" className="scene on-tone tone-paper" aria-labelledby="founder-heading">
+      {/* Founder. Short. No attributed quote is published while the approved
+          one conflicts with the current positioning. See
+          content/withheld-claims.md. */}
+      <section id="about" className="section section--rule" aria-labelledby="founder-heading">
         <div className="shell">
-          <div className="founder">
-            <div className="founder__identity">
-              <Reveal>
-                <h2 id="founder-heading" className="visually-hidden">
-                  Founder
-                </h2>
-                <p className="founder__monogram" aria-hidden="true">M</p>
-                <p className="founder__name">Michael Daley</p>
-                <p className="founder__role">
-                  Founder &middot; MAD Ventures Holdings LLC
-                </p>
-              </Reveal>
-            </div>
+          <div className="split">
+            <Reveal>
+              <h2 id="founder-heading" className="visually-hidden">
+                Founder
+              </h2>
+              <p className="founder__monogram" aria-hidden="true">M</p>
+              <p className="founder__name">Michael Daley</p>
+              <p className="label founder__role">
+                Founder &middot; MAD Ventures Holdings LLC
+              </p>
+            </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="founder__body">
-                <h3 className="type-heading founder__statement">
-                  Built by someone who has had to solve these problems with a team.
-                </h3>
+              <h3 className="t-heading founder__statement">
+                Built by someone who has had to solve these problems with a team.
+              </h3>
 
-                <dl className="founder__facts">
-                  <div>
-                    <dt className="label">Operating experience</dt>
-                    <dd>
-                      Senior management inside operating organizations: healthcare
-                      operations, workforce management, capacity planning, and
-                      operational readiness.
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="label">How it shapes the software</dt>
-                    <dd>
-                      Michael&rsquo;s experience in healthcare operations informs how
-                      he approaches software: start with a real problem, understand
-                      the constraints, and make the next step clear.
-                    </dd>
-                  </div>
-                </dl>
-              </div>
+              <dl className="founder__facts">
+                <div>
+                  <dt className="label">Operating experience</dt>
+                  <dd>
+                    Senior management inside operating organizations: healthcare
+                    operations, workforce management, capacity planning, and
+                    operational readiness.
+                  </dd>
+                </div>
+                <div>
+                  <dt className="label">How it shapes the software</dt>
+                  <dd>
+                    Michael&rsquo;s experience in healthcare operations informs how
+                    he approaches software: start with a real problem, understand
+                    the constraints, and make the next step clear.
+                  </dd>
+                </div>
+              </dl>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ================================================================
-          Scene 5 — Supporting technology. Subordinate and clearly internal.
-          ================================================================ */}
-      <section className="scene scene-tight on-tone tone-paper" aria-labelledby="tech-heading">
+      {/* Supporting technology. Subordinate and clearly internal. */}
+      <section className="section section--rule" aria-labelledby="tech-heading">
         <div className="shell">
           <Reveal>
-            <h2 id="tech-heading" className="type-heading" style={{ maxWidth: "28ch" }}>
-              The internal tools we build our own software with.
-            </h2>
+            <div className="section-intro">
+              <h2 id="tech-heading" className="t-heading">
+                The internal tools behind our own work.
+              </h2>
+            </div>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="tech" style={{ marginTop: "2.5rem" }}>
+            <div className="cols cols--3">
               {INTERNAL_PLATFORMS.map((platform) => (
-                <div key={platform.name} className="tech__card">
-                  <p className="type-num">Internal initiative</p>
-                  <h3 className="tech__name">{platform.name}</h3>
-                  <p className="tech__body">{platform.body}</p>
+                <div key={platform.name} className="cols__item">
+                  <p className="label">Internal initiative</p>
+                  <h3 className="cols__title">{platform.name}</h3>
+                  <p>{platform.body}</p>
                 </div>
               ))}
             </div>
-            <p className="tech__note">
-              Internal tools for building our own software. They are not venture
+            <p className="note below-split">
+              Internal tools for our own work. They are not venture
               initiatives, and nothing about their current state is presented as a
               product or a customer-facing capability.
             </p>
@@ -214,27 +189,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================================================================
-          Scene 6 — The invitation. The only contact CTA on the page.
-          ================================================================ */}
-      <section className="invite-band on-tone tone-paper" aria-labelledby="invite-heading">
+      {/* The invitation. One CTA intent. */}
+      <section className="section section--rule" aria-labelledby="invite-heading">
         <div className="shell">
-          <div className="invite">
+          <div className="split">
             <Reveal>
-              <h2 id="invite-heading" className="type-heading invite__title">
+              <h2 id="invite-heading" className="t-heading">
                 Have a problem software could help solve?
               </h2>
             </Reveal>
 
             <Reveal delay={0.08}>
               <div className="invite__body">
-                <p className="type-body">
+                <p className="lead">
                   We are looking for people with a real operational problem worth
                   solving, a team that can be held to a standard, and the patience
                   to build something that lasts longer than a launch.
                 </p>
-                <div className="invite__actions">
-                  <Link href="/partnership/" className="btn btn-ink">
+                <div className="actions">
+                  <Link href="/partnership/" className="btn btn-primary">
                     Start a conversation <span className="arrow" aria-hidden="true">&rarr;</span>
                   </Link>
                   <p className="invite__email">

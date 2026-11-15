@@ -42,7 +42,7 @@ export function ProblemField() {
     <figure className="problem" data-concept>
       <div className="problem__head">
         <span className="mark-cobalt" aria-hidden="true" />
-        <span className="type-label">Our approach &mdash; conceptual</span>
+        <span className="label">Our approach &mdash; conceptual</span>
       </div>
 
       <div className="problem__field" role="img" aria-labelledby="pf-title pf-desc">

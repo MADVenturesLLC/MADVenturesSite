@@ -48,6 +48,8 @@ paths against the Pages preview before production release.
 | public/ | Brand assets, robots, sitemap and Pages redirects |
 | scripts/verify.mjs | Content and structural regression checks |
 | content/ | Internal withheld-claim record; not published assets |
+| DESIGN.md | Every visual decision: color, type, spacing, components, page compositions, and the review checklist |
+| COPY.md | Every word the site publishes, page by page; the site uses this text verbatim |
 
 The app exports static HTML into `out/`; it does not require a Node server or
 Cloudflare Next.js adapter. Build output, dependencies, secrets and local CLI
