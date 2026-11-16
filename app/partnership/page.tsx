@@ -68,7 +68,7 @@ export default function PartnershipPage() {
               <RevealItem as="li" key={path.n}>
                 <Tilt contentClassName="rows__row" max={2}>
                 <span className="mono-num rows__n">{path.n}</span>
-                <h2 className="t-row rows__title">{path.title}</h2>
+                <h3 className="t-row rows__title">{path.title}</h3>
                 <p className="prose rows__body">{path.body}</p>
               </Tilt>
               </RevealItem>
@@ -90,7 +90,7 @@ export default function PartnershipPage() {
                 MAD Ventures may be the right partner for it.
               </p>
               <p className="prose">
-                If your enquiry is about using one of our software initiatives,
+                If your inquiry is about using one of our software initiatives,
                 please contact that team directly. We are not a customer
                 support route.
               </p>

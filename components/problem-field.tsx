@@ -1,15 +1,9 @@
-import Link from "next/link";
-import { VENTURES, ventureHref } from "@/lib/portfolio";
-
 /**
  * The method, as one continuous field.
  *
  * Lives on /approach rather than the homepage: it explains HOW MAD Ventures
  * works, not what a product is. The homepage leads with a specific initiative
  * and a specific user problem instead.
- *
- * The desktop presentation runs left-to-right; the mobile presentation is a
- * separate vertical composition, not a shrunken copy.
  *
  * Everything shown is conceptual. No figure, count, or result is real.
  */
@@ -41,7 +35,6 @@ export function ProblemField() {
   return (
     <figure className="problem" data-concept>
       <div className="problem__head">
-        <span className="mark-cobalt" aria-hidden="true" />
         <span className="label">Our approach &mdash; conceptual</span>
       </div>
 
@@ -59,8 +52,6 @@ export function ProblemField() {
             <span key={i} className={i % 13 === 0 ? "pf-mark pf-mark--lit" : "pf-mark"} />
           ))}
         </div>
-
-        <span className="problem__gate" aria-hidden="true" />
 
         <div className="problem__stage problem__stage--surface" aria-hidden="true">
           {Array.from({ length: 6 }).map((_, i) => (
@@ -89,58 +80,10 @@ export function ProblemField() {
         ))}
       </ol>
 
-      {/* Supporting brand motif — the monogram ring, small and subordinate. */}
-      <div className="problem__mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" className="problem__mark-svg">
-          <circle className="pf-ring" cx="32" cy="32" r="26" />
-          <circle className="pf-ring pf-ring--inner" cx="32" cy="32" r="17" />
-          <image
-            href="/branding/mad-monogram-obsidian.svg"
-            x="20"
-            y="24"
-            width="24"
-            height="16"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </svg>
-      </div>
-
       <figcaption className="problem__caption">
         A conceptual illustration of the approach, not a product interface. It
         shows no real data, measurement, or verified capability.
       </figcaption>
     </figure>
-  );
-}
-
-/**
- * Initiative index.
- *
- * Separate from the opening visual and laid out as a full-width register with
- * complete names. The previous version truncated names to fit a two-column
- * legend, which hid exactly the information a visitor needs.
- */
-export function InitiativeIndex() {
-  return (
-    <nav className="ix" aria-label="Initiatives">
-      <ul className="ledger">
-        {VENTURES.map((venture) => (
-          <li key={venture.slug}>
-            <Link href={ventureHref(venture.slug)} className="ledger__row ix__row">
-              <span className="ledger__index">{venture.index}</span>
-              <span className="ledger__name">{venture.name}</span>
-              <span className="ix__purpose">{venture.purpose}</span>
-              <span className="ix__tail">
-                <span className="stage-tag">
-                  <span className="stage-tag__dot" aria-hidden="true" />
-                  {venture.stage}
-                </span>
-                <span className="ledger__arrow ix__arrow" aria-hidden="true">&rarr;</span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
   );
 }

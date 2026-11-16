@@ -141,7 +141,7 @@ ul, ol { list-style: none; }
 }
 
 /* Telemetry: fixed-width figures so 01 to 04 and metadata align in columns. */
-.mono-num, .label, .stage-tag, .module__index, .count-line__figure, .breadcrumb, .brand__sub, .site-footer__bottom, .problem__step-n, .art__label, .type-num, .rr__kind, .rr__id, .rr__label, .rr__state {
+.mono-num, .label, .stage-tag, .module__index, .count-line__figure, .breadcrumb, .brand__sub, .site-footer__bottom, .problem__step-n, .rr__kind, .rr__id, .rr__label, .rr__state {
   font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "ss01" 1;
 }
 
@@ -553,10 +553,7 @@ ul, ol { list-style: none; }
 .problem { margin: 0; padding: clamp(1.25rem, 2.5vw, 2.25rem); }
 .problem__head { display: flex; align-items: center; gap: 0.75rem; }
 .problem__head .label { margin: 0; }
-/* The cut appears once per page, so the figure head carries no second bar. */
-.mark-cobalt { display: none; }
 .problem__field { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--col-gap); align-items: center; margin-top: clamp(1.5rem, 3vw, 2.5rem); }
-.problem__gate, .problem__mark { display: none; }
 .problem__stage--volume { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: clamp(3px, 0.4vw, 6px); }
 .pf-mark { display: block; aspect-ratio: 1; border-radius: 50%; background: var(--line); }
 .pf-mark--lit { background: var(--cobalt); }
@@ -779,7 +776,7 @@ main, .site-footer { position: relative; z-index: 1; }
 .founder__facts > div:first-child { padding-top: 0; }
 .founder__facts > div:last-child { padding-bottom: 0; border-bottom: 0; }
 .founder__facts > div { border-bottom-color: var(--bevel-soft); }
-.founder__panel { margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
+.founder__panel { height: auto; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
 .contact-box__email { text-shadow: 0 0 26px rgba(20, 107, 255, 0.45); }
 .contact-box__note { border-top-color: var(--bevel-soft); }
 .focus-list-plain { border-top: 0; display: grid; gap: 0; }
@@ -832,35 +829,6 @@ main, .site-footer { position: relative; z-index: 1; }
 .pf-chain { box-shadow: 0 0 8px var(--cobalt); }
 .pf-chain::after { background: var(--ground); box-shadow: 0 0 10px var(--cobalt); }
 .pf-act { box-shadow: 0 0 0 1px #fff, 0 0 40px rgba(102, 159, 255, 0.75); }
-
-/* --------------------------------------------------------------------------
-   Venture artwork (components/venture-artwork.tsx).
-   Conceptual illustrations, one per initiative, in the same depth language.
-   -------------------------------------------------------------------------- */
-
-.art {
-  position: relative; display: flex; flex-direction: column; gap: 1rem; min-height: 15rem; overflow: hidden;
-  padding: clamp(1.25rem, 2.5vw, 2rem); perspective: 900px;
-  border: 1px solid var(--bevel); border-radius: var(--radius-panel); background: var(--glass); box-shadow: var(--depth);
-}
-.art__label, .type-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--cobalt-text); }
-.art__caption { margin-top: auto; font-size: 0.875rem; line-height: 1.5; color: var(--ink-mute); }
-.art__field { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 0.3rem; flex: 1; align-content: center; transform: rotateX(42deg); transform-origin: 50% 70%; }
-.art__mark { display: block; aspect-ratio: 1; border-radius: 50%; background: rgba(183, 187, 194, 0.2); }
-.art__mark--heavy { background: var(--cobalt-text); box-shadow: 0 0 10px var(--cobalt), 0 0 22px rgba(20, 107, 255, 0.6); }
-.art__figure { display: grid; gap: 0.5rem; transform: rotateY(-14deg); transform-origin: 0 50%; }
-.art__figure-bar { display: block; height: 10px; background: linear-gradient(90deg, var(--cobalt), var(--cobalt-text)); box-shadow: 0 0 14px rgba(20, 107, 255, 0.7); }
-.art__figure-bar:nth-child(2) { background: var(--ink-soft); box-shadow: none; opacity: 0.6; }
-.art__figure-bar:nth-child(3) { background: var(--ink-mute); box-shadow: none; opacity: 0.45; }
-.art__orbit, .art__dims { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.25rem; }
-.art__orbit-item, .art__dims li { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--ink-mute); }
-.art__orbit-item i, .art__dim-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cobalt); box-shadow: 0 0 8px var(--cobalt); flex: none; }
-.art__sweep { position: relative; height: 2px; flex: 1; align-self: center; width: 100%; max-height: 2px; margin-block: auto; background: var(--bevel-soft); }
-.art__sweep-line { position: absolute; inset-block: -1px; left: 0; width: 34%; background: linear-gradient(90deg, transparent, var(--cobalt-text)); box-shadow: 0 0 12px var(--cobalt); }
-.art--mention { justify-content: center; border-style: dashed; }
-.art__mention-state { display: flex; align-items: center; gap: 0.5rem; font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.018em; color: var(--ink); }
-.art__mention-body { font-size: 0.9375rem; line-height: 1.6; color: var(--ink-soft); max-width: 30rem; }
-.art__mention-link a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--cobalt); text-decoration-thickness: 2px; text-underline-offset: 0.45em; }
 
 /* Interior page leads sit where the core is brightest, so they are seated on
    glass to hold 4.5:1 contrast. */

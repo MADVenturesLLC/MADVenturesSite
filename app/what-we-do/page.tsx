@@ -14,7 +14,7 @@ const AREAS = [
   {
     n: "01",
     title: "Understand",
-    body: "Starting from the problem someone actually has. Most software fails here, not in the code. it answers a question nobody was asking.",
+    body: "Starting from the problem someone actually has. Most software fails here, not in the code. It answers a question nobody was asking.",
   },
   {
     n: "02",
@@ -92,7 +92,7 @@ export default function WhatWeDoPage() {
         <div className="shell">
           <div className="split">
             <Reveal>
-              <p className="label">Supporting detail. internal initiative</p>
+              <p className="label">Supporting detail. Internal initiative</p>
               <h2 id="build-room-heading" className="t-heading">
                 Build Room: coordinating software-building work.
               </h2>
@@ -129,7 +129,7 @@ export default function WhatWeDoPage() {
                 Conceptual Build Room workflow. Illustrates the operating
                 model; does not assert live automation, production readiness, or
                 deployment approval. Review passing is a separate step from founder
-                release or deployment authorisation.
+                release or deployment authorization.
               </figcaption>
             </figure>
           </Reveal>
@@ -168,7 +168,7 @@ export default function WhatWeDoPage() {
         <div className="shell">
           <div className="split">
             <Reveal>
-              <p className="label">Supporting detail. internal initiative</p>
+              <p className="label">Supporting detail. Internal initiative</p>
               <h2 id="mados-heading" className="t-heading">
                 MadOS: organizing the company&rsquo;s work and technology.
               </h2>

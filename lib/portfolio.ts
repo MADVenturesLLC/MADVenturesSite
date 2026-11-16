@@ -191,7 +191,7 @@ export const DEVELOPMENT_STAGES = [
   {
     n: "01",
     title: "Problem",
-    body: "Start from a specific, costly problem someone already has. not from a category we want to exist.",
+    body: "Start from a specific, costly problem someone already has, not from a category we want to exist.",
   },
   {
     n: "02",

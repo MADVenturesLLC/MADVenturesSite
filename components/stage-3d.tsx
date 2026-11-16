@@ -198,7 +198,6 @@ function deduplicatePositions(geometry: import("three").BufferGeometry) {
 }
 
 export function Stage3D() {
-  const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controllerRef = useRef<Controller | null>(null);
   const allowedRef = useRef(false);
@@ -210,9 +209,8 @@ export function Stage3D() {
   }, [allowed]);
 
   useEffect(() => {
-    const stageEl = stageRef.current;
     const canvas = canvasRef.current;
-    if (!stageEl || !canvas) return;
+    if (!canvas) return;
 
     let disposed = false;
     let teardown = () => {};
@@ -293,19 +291,33 @@ export function Stage3D() {
       halo.scale.set(9.8, 9.8, 1);
       core.add(halo);
 
-      // Secondary scroll-and-time sweeping spectrum glow orb in background depth.
+      // Secondary scroll-and-time sweeping spectrum glow orbs rendered in WebGL
+      // (avoiding per-frame CSS radial-gradient repaints on `.stage`).
       const sweepGlowMat = new THREE.SpriteMaterial({
         map: driftHaloTex,
         transparent: true,
-        opacity: 0.46,
+        opacity: 0.48,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         depthTest: false,
       });
       const sweepGlow = new THREE.Sprite(sweepGlowMat);
       sweepGlow.position.set(-2.5, -1.2, -5.5);
-      sweepGlow.scale.set(14.0, 11.0, 1);
+      sweepGlow.scale.set(14.5, 11.5, 1);
       scene.add(sweepGlow);
+
+      const ambientGlowMat = new THREE.SpriteMaterial({
+        map: primaryHaloTex,
+        transparent: true,
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        depthTest: false,
+      });
+      const ambientGlow = new THREE.Sprite(ambientGlowMat);
+      ambientGlow.position.set(2.8, 1.4, -7.0);
+      ambientGlow.scale.set(16.0, 12.0, 1);
+      scene.add(ambientGlow);
 
       // Sculpted dark-obsidian geodesic polyhedron (detail 2 = 320 refined facets).
       const obsidianGeo = new THREE.IcosahedronGeometry(1.36, 2);
@@ -660,13 +672,20 @@ export function Stage3D() {
         halo.scale.set(9.8 * haloPulse, 9.8 * haloPulse, 1);
         haloMat.opacity = 0.7 + wave * 0.16 + Math.min(boost * 0.15, 0.22);
 
-        // Background drifting glow glides across the viewport with orbit + scroll.
+        // Background drifting glow orbs glide inside WebGL with orbit + scroll.
         sweepGlow.position.set(
           -2.2 + Math.sin(scrollAngle * 0.8 + elapsed * 0.28) * 5.2,
           -0.8 + Math.cos(scrollAngle * 0.9 + elapsed * 0.22) * 2.8,
           -5.5,
         );
-        sweepGlowMat.opacity = 0.4 + wave * 0.24 + Math.min(boost * 0.2, 0.26);
+        sweepGlowMat.opacity = 0.42 + wave * 0.24 + Math.min(boost * 0.2, 0.26);
+
+        ambientGlow.position.set(
+          2.6 - Math.sin(scrollAngle * 0.65 + elapsed * 0.16) * 4.4,
+          1.2 + Math.cos(scrollAngle * 0.75 + elapsed * 0.2) * 2.4,
+          -7.0,
+        );
+        ambientGlowMat.opacity = 0.22 + wave * 0.14 + Math.min(boost * 0.14, 0.2);
 
         const particlePulse = 1 + Math.min(boost * 0.24, 0.32);
         nodeMat.uniforms.uPulse.value = particlePulse;
@@ -679,17 +698,6 @@ export function Stage3D() {
         camera.lookAt(baseX * 0.18, 0, 0);
 
         canvas.style.opacity = String(0.95 - progress * 0.08);
-
-        // Drive CSS backdrop glow coordinates across every page.
-        const glowX = 76 - Math.sin(scrollAngle * 0.75 + elapsed * 0.16) * 44;
-        const glowY = 34 + Math.sin(scrollAngle * 0.9 + elapsed * 0.2) * 24;
-        const glowBX = 16 + Math.cos(scrollAngle * 0.65 + elapsed * 0.14) * 32 + 24;
-        const glowBY = 82 - Math.abs(Math.sin(scrollAngle * 0.5)) * 48;
-        stageEl.style.setProperty("--glow-a-x", `${glowX.toFixed(1)}%`);
-        stageEl.style.setProperty("--glow-a-y", `${glowY.toFixed(1)}%`);
-        stageEl.style.setProperty("--glow-b-x", `${glowBX.toFixed(1)}%`);
-        stageEl.style.setProperty("--glow-b-y", `${glowBY.toFixed(1)}%`);
-        stageEl.style.setProperty("--glow-boost", (0.21 + wave * 0.13 + Math.min(boost * 0.12, 0.18)).toFixed(3));
 
         renderer.render(scene, camera);
       };
@@ -779,7 +787,7 @@ export function Stage3D() {
   }, []);
 
   return (
-    <div ref={stageRef} className="stage" aria-hidden="true">
+    <div className="stage" aria-hidden="true">
       <canvas ref={canvasRef} className="stage__canvas" />
     </div>
   );
