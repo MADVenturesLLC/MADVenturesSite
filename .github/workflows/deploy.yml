@@ -15,12 +15,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Build, verify, and deploy out/
+  build:
+    name: Build and verify out/
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out main
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,6 +36,29 @@ jobs:
 
       - name: Run typecheck, lint, build, and verify
         run: npm run check
+
+      - name: Upload verified static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-out
+          path: out
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    name: Deploy out/ to production
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://www.madventuresholdings.com
+    steps:
+      - name: Download verified static export
+        uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: out
 
       - name: Verify Cloudflare credentials are configured
         env:
