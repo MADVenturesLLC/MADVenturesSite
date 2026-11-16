@@ -100,7 +100,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/partnership/" className="btn btn-primary btn-sm site-header__cta">
+        <Link href="/partnership/" className="text-link site-header__cta">
           Start a conversation
         </Link>
 

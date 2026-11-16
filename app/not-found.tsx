@@ -13,20 +13,20 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="section">
+    <section className="page-head">
       <div className="shell notfound">
         <p className="label label-accent">Error 404</p>
-        <h1 className="display-2 notfound__title">This page does not exist.</h1>
+        <h1 className="t-page page-head__title">This page does not exist.</h1>
         <p className="lead notfound__lead">
           The address may have changed, or the page may have been retired. The
           pages below cover everything currently published.
         </p>
         <div className="notfound__links">
-          <Link href="/" className="btn btn-primary">Home</Link>
-          <Link href="/what-we-do/" className="btn btn-ghost">What We Do</Link>
-          <Link href="/companies/" className="btn btn-ghost">Companies</Link>
-          <Link href="/approach/" className="btn btn-ghost">Approach</Link>
-          <Link href="/partnership/" className="btn btn-ghost">Partnership</Link>
+          <Link href="/" className="text-link">Home</Link>
+          <Link href="/what-we-do/" className="text-link">What We Do</Link>
+          <Link href="/companies/" className="text-link">Companies</Link>
+          <Link href="/approach/" className="text-link">Approach</Link>
+          <Link href="/partnership/" className="text-link">Partnership</Link>
         </div>
       </div>
     </section>

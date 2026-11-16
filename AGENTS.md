@@ -36,8 +36,9 @@ Four initiatives, each **In Development**:
 - Avenmark Health: in development; scope being defined. Do not invent its scope.
 
 Stage is not proof of availability. Label conceptual examples clearly, with no
-invented functionality, customers, results or real data. Build Room and MadOS
-are supporting internal technology initiatives, not public products.
+invented functionality, customers, results or real data. Build Room, MadOS and
+Red Social Room are supporting internal technology initiatives, not public
+products.
 Use American English. Public contact: `Michael@MADVenturesHoldings.com`.
 The Founder quote remains withheld, not permanently retired. Do not publish
 unsupported credentials. Internal withheld content is never a public asset.

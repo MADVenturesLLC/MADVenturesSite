@@ -22,29 +22,39 @@ const AREAS = [
   },
   {
     n: "03",
-    title: "Operate and hold",
+    title: "Move",
     body: "Running and improving the software after launch, and being honest about what is proven, what is not, and what still needs work.",
   },
 ];
 
+/**
+ * What We Do. Layout follows DESIGN.md: the mission sentence is the page
+ * title, the three steps are rows, and each internal initiative is a split
+ * with its supporting figure at full measure beneath.
+ */
 export default function WhatWeDoPage() {
   return (
     <>
       <section className="page-head">
-        <div className="shell page-head__inner">
+        <div className="shell">
           <nav className="breadcrumb" aria-label="Breadcrumb">
             <Link href="/">Home</Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page">What We Do</span>
           </nav>
+
           <p className="label label-accent">Our mission</p>
-          <h1 className="display-1 page-head__title">{SITE.mission}</h1>
-          <p className="lead page-head__lead">
-            Everything else on this page exists to serve that sentence,
-            including the internal technology we use to build our own software
-            with.
-          </p>
-          <div className="page-head__cut" aria-hidden="true">
+          <h1 className="t-page page-head__title page-head__title--statement">{SITE.mission}</h1>
+
+          <div className="page-head__foot">
+            <p className="lead page-head__lead">
+              Everything else on this page exists to serve that sentence,
+              including the internal technology we use to build our own software
+              with.
+            </p>
+          </div>
+
+          <div className="cut" aria-hidden="true">
             <b />
             <i />
           </div>
@@ -56,74 +66,70 @@ export default function WhatWeDoPage() {
           <Reveal>
             <div className="section-intro">
               <p className="label">How that works</p>
-              <h2 id="areas-heading" className="display-2">
+              <h2 id="areas-heading" className="t-heading">
                 Understand, decide, move.
               </h2>
             </div>
           </Reveal>
 
-          <RevealGroup as="ul" className="area-list" stagger={0.07}>
+          <RevealGroup as="ul" className="rows" stagger={0.07}>
             {AREAS.map((area) => (
-              <RevealItem as="li" key={area.n} className="area-row">
-                <span className="mono-num area-row__n">{area.n}</span>
-                <h3 className="display-3 area-row__title">{area.title}</h3>
-                <p className="prose area-row__body">{area.body}</p>
+              <RevealItem as="li" key={area.n} className="rows__row">
+                <span className="mono-num rows__n">{area.n}</span>
+                <h3 className="t-row rows__title">{area.title}</h3>
+                <p className="prose rows__body">{area.body}</p>
               </RevealItem>
             ))}
           </RevealGroup>
         </div>
       </section>
 
-      {/* Supporting detail. subordinate to the mission, not the brand center. */}
-      <section className="section section-alt" aria-labelledby="build-room-heading">
+      {/* Build Room. Internal, and framed as such. */}
+      <section className="section section--rule" aria-labelledby="build-room-heading">
         <div className="shell">
-          <Reveal>
-            <div className="section-intro">
+          <div className="split">
+            <Reveal>
               <p className="label">Supporting detail. internal initiative</p>
-              <h2 id="build-room-heading" className="display-2">
+              <h2 id="build-room-heading" className="t-heading">
                 Build Room: coordinating software-building work.
               </h2>
-            </div>
-          </Reveal>
-
-          <div className="detail-split">
-            <Reveal>
-              <div>
-                <p className="prose">
-                  Build Room is MAD Ventures&rsquo; internal initiative for
-                  coordinating how software work actually moves: how a proposed change
-                  is scoped and given an owner, how it is prepared, how it is
-                  independently reviewed against evidence, how findings return to the
-                  builder, and how a finished review reaches a person for a decision.
-                </p>
-                <p className="prose">
-                  The point is accountability. Every change should have a named owner,
-                  an independent check before anyone is asked to approve it, and a
-                  decision that belongs to a person rather than to a pipeline.
-                </p>
-                <p className="prose">
-                  Build Room is not a customer product. Its interfaces are private,
-                  and nothing on this site is a screenshot of a live internal screen.
-                </p>
-              </div>
             </Reveal>
 
             <Reveal delay={0.08}>
-              <figure className="figure">
-                <div className="figure__frame">
-                  <p className="label figure__label">Conceptual workflow</p>
-                  <h3 className="display-3 figure__title">How accountable work moves</h3>
-                  <WorkflowDiagram />
-                </div>
-                <figcaption className="figure__caption">
-                  Conceptual Build Room workflow. Illustrates the operating
-                  model; does not assert live automation, production readiness, or
-                  deployment approval. Review passing is a separate step from founder
-                  release or deployment authorisation.
-                </figcaption>
-              </figure>
+              <p className="prose">
+                Build Room is MAD Ventures&rsquo; internal initiative for
+                coordinating how software work actually moves: how a proposed change
+                is scoped and given an owner, how it is prepared, how it is
+                independently reviewed against evidence, how findings return to the
+                builder, and how a finished review reaches a person for a decision.
+              </p>
+              <p className="prose">
+                The point is accountability. Every change should have a named owner,
+                an independent check before anyone is asked to approve it, and a
+                decision that belongs to a person rather than to a pipeline.
+              </p>
+              <p className="prose">
+                Build Room is not a customer product. Its interfaces are private,
+                and nothing on this site is a screenshot of a live internal screen.
+              </p>
             </Reveal>
           </div>
+
+          <Reveal delay={0.08} className="below-split">
+            <figure className="figure">
+              <div className="figure__frame">
+                <p className="label">Conceptual workflow</p>
+                <h3 className="t-row figure__title">How accountable work moves</h3>
+                <WorkflowDiagram />
+              </div>
+              <figcaption className="figure__caption">
+                Conceptual Build Room workflow. Illustrates the operating
+                model; does not assert live automation, production readiness, or
+                deployment approval. Review passing is a separate step from founder
+                release or deployment authorisation.
+              </figcaption>
+            </figure>
+          </Reveal>
 
           <details className="text-equivalent">
             <summary>Text description of this diagram</summary>
@@ -154,14 +160,18 @@ export default function WhatWeDoPage() {
         </div>
       </section>
 
-      <section className="section" aria-labelledby="mados-heading">
-        <div className="shell detail-split">
-          <Reveal>
-            <div>
+      {/* MadOS, then all internal platforms as ruled columns. */}
+      <section className="section section--rule" aria-labelledby="mados-heading">
+        <div className="shell">
+          <div className="split">
+            <Reveal>
               <p className="label">Supporting detail. internal initiative</p>
-              <h2 id="mados-heading" className="display-2 mados-title">
+              <h2 id="mados-heading" className="t-heading">
                 MadOS: organizing the company&rsquo;s work and technology.
               </h2>
+            </Reveal>
+
+            <Reveal delay={0.08}>
               <p className="prose">
                 MadOS is MAD Ventures&rsquo; internal operating-system initiative: the
                 layer where the company&rsquo;s own work, decisions, records, and
@@ -179,55 +189,54 @@ export default function WhatWeDoPage() {
                 operational data, and administrative surfaces are deliberately not
                 part of this public site.
               </p>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
 
-          <Reveal delay={0.08}>
-            <div className="support support--tight">
-              <div className="support__head">
-                <p className="label">Internal tools, not products</p>
-                <h3 className="display-3">Internal platforms</h3>
-              </div>
-              <div className="support__items">
-                {INTERNAL_PLATFORMS.map((platform) => (
-                  <div key={platform.name} className="support__item">
-                    <p className="label label-accent">{platform.name}</p>
-                    <p className="prose">{platform.body}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="support__foot">
-                Neither is a fifth or sixth venture, neither is offered to outside
-                customers today, and no public availability, automation, or customer
-                adoption is claimed for either.
-              </p>
+          <Reveal delay={0.08} className="below-split">
+            <div className="section-intro">
+              <p className="label">Internal tools, not products</p>
+              <h3 className="t-row">Internal platforms</h3>
             </div>
+            <div className="cols cols--3">
+              {INTERNAL_PLATFORMS.map((platform) => (
+                <div key={platform.name} className="cols__item">
+                  <p className="label label-accent">{platform.name}</p>
+                  <p className="prose">{platform.body}</p>
+                </div>
+              ))}
+            </div>
+            <p className="note below-split">
+              None is an additional venture, none is offered to outside
+              customers today, and no public availability, automation, or customer
+              adoption is claimed for any of them.
+            </p>
           </Reveal>
         </div>
       </section>
 
-      <section className="section section-alt" aria-labelledby="close-heading">
-        <div className="shell closing">
-          <Reveal>
-            <div>
+      <section className="section section--rule" aria-labelledby="close-heading">
+        <div className="shell">
+          <div className="split">
+            <Reveal>
               <p className="label label-accent">Work with us</p>
-              <h2 id="close-heading" className="display-2 closing__title">
+              <h2 id="close-heading" className="t-heading">
                 If this sounds like your problem, that is the point.
               </h2>
-            </div>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <div className="closing__body">
-              <p className="prose">
-                Whether you are a team with a real software problem, a founder
-                looking for a build partner, or an operator who wants to build
-                something that lasts, the conversation starts the same way.
-              </p>
-              <a href={`mailto:${SITE.email}`} className="btn btn-primary">
-                {SITE.email} <span className="arrow" aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </Reveal>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div className="closing__body">
+                <p className="lead">
+                  Whether you are a team with a real software problem, a founder
+                  looking for a build partner, or an operator who wants to build
+                  something that lasts, the conversation starts the same way.
+                </p>
+                <a href={`mailto:${SITE.email}`} className="btn btn-primary">
+                  {SITE.email} <span className="arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
     </>

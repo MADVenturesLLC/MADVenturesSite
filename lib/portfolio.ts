@@ -218,6 +218,15 @@ export const INTERNAL_PLATFORMS = [
     name: "MadOS",
     body: "Organizes the company’s work, decisions, and technology so context survives across the software we build.",
   },
+  /*
+    Added by Founder decision, 2026-11-15: named publicly as a third internal
+    technology. The sentence below is the approved public description. Do not
+    add model vendors, costs, internals, or anything that reads as an offer.
+  */
+  {
+    name: "Red Social Room",
+    body: "Creates the company’s social content in one place, from image to caption to platform-sized export.",
+  },
 ] as const;
 
 /**
