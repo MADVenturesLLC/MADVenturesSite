@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Tilt } from "@/components/tilt";
 import { DrawRule, Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { DEVELOPMENT_STAGES, FOCUS_AREAS } from "@/lib/portfolio";
 import { ProblemField } from "@/components/problem-field";
@@ -57,10 +58,12 @@ export default function ApproachPage() {
 
           <RevealGroup as="ul" className="rows" stagger={0.06}>
             {DEVELOPMENT_STAGES.map((row) => (
-              <RevealItem as="li" key={row.n} className="rows__row">
+              <RevealItem as="li" key={row.n}>
+                <Tilt contentClassName="rows__row" max={2}>
                 <span className="mono-num rows__n">{row.n}</span>
                 <h3 className="t-row rows__title">{row.title}</h3>
                 <p className="prose rows__body">{row.body}</p>
+              </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -138,10 +141,12 @@ export default function ApproachPage() {
 
           <RevealGroup as="ul" className="cols cols--focus" stagger={0.05}>
             {FOCUS_AREAS.map((area) => (
-              <RevealItem as="li" key={area.n} className="cols__item">
+              <RevealItem as="li" key={area.n}>
+                <Tilt contentClassName="cols__item" max={2}>
                 <span className="mono-num">{area.n}</span>
                 <h3 className="cols__title cols__title--sm">{area.title}</h3>
                 <p className="prose">{area.body}</p>
+              </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>

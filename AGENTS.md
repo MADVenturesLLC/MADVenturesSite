@@ -19,13 +19,23 @@ Do not use `next start` for the static export. See README.md for commands.
 
 ## Approved visual direction
 
-Black Concept B: oversized MAD VENTURES wordmark, editorial typography, generous
-spacing, restrained cobalt and content-specific interior compositions.
-Background #08090B; primary text #F4F1EA; secondary #B7BBC2; accent #146BFF;
-separators #282B31. Hanken Grotesk and IBM Plex Mono; use the supplied monograms.
-Avoid generic SaaS card grids, decorative glow, gradients and invented metrics.
-Preserve keyboard focus, contrast, mobile readability and reduced-motion/static
-fallbacks. Essential content must not depend on JavaScript animation.
+Futuristic 3D, authorized by the Founder on 2026-11-15. It supersedes Black
+Concept B and that direction's ban on glow, gradients, shadows and translucent
+panels. DESIGN.md is the full specification.
+
+A persistent WebGL stage (`components/stage-3d.tsx`, three.js) sits behind every
+page: an obsidian core in wireframe lattices with an orbital signal field, lit
+in cobalt. Content sits in translucent spatial panels built from real Z-axis
+planes (`components/tilt.tsx`), with pointer tilt, HUD corner ticks and mono
+telemetry. The oversized MAD VENTURES wordmark stays.
+
+Unchanged: background #08090B; primary text #F4F1EA; secondary #B7BBC2; accent
+#146BFF; cobalt text #669FFF; Hanken Grotesk and IBM Plex Mono; the supplied
+monograms. Still avoid generic SaaS card grids and invented metrics.
+Preserve keyboard focus, 4.5:1 text contrast, mobile readability and
+reduced-motion/static fallbacks. The site is static-first: essential content
+must not depend on JavaScript, WebGL or animation, and all motion follows
+`components/motion-permission.tsx`.
 
 ## Public content
 

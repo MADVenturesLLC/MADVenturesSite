@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Tilt } from "@/components/tilt";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { PARTNERSHIP_PATHS, SITE } from "@/lib/portfolio";
 
@@ -64,10 +65,12 @@ export default function PartnershipPage() {
 
           <RevealGroup as="ul" className="rows" stagger={0.07}>
             {PARTNERSHIP_PATHS.map((path) => (
-              <RevealItem as="li" key={path.n} className="rows__row">
+              <RevealItem as="li" key={path.n}>
+                <Tilt contentClassName="rows__row" max={2}>
                 <span className="mono-num rows__n">{path.n}</span>
                 <h2 className="t-row rows__title">{path.title}</h2>
                 <p className="prose rows__body">{path.body}</p>
+              </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -94,7 +97,7 @@ export default function PartnershipPage() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <div className="contact-box">
+              <Tilt max={3} contentClassName="contact-box">
                 <p className="label">Contact MAD Ventures</p>
                 <a className="contact-box__email" href={`mailto:${SITE.email}`}>
                   {SITE.email}
@@ -106,7 +109,7 @@ export default function PartnershipPage() {
                   Email is the approved contact channel. There is no form on this site, so
                   nothing you type here is stored or sent anywhere.
                 </p>
-              </div>
+              </Tilt>
             </Reveal>
           </div>
         </div>
