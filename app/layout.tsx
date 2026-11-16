@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Stage3D } from "@/components/stage-3d";
 import { SITE } from "@/lib/portfolio";
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <Stage3D />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

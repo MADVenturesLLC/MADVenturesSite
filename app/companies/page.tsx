@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
+import { Tilt } from "@/components/tilt";
 import { VENTURES, ventureHref } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
@@ -55,28 +56,28 @@ export default function CompaniesPage() {
             Software initiatives we are developing
           </h2>
 
-          <RevealGroup as="ul" className="register register--tall" stagger={0.06}>
+          <RevealGroup as="ul" className="modules modules--tall" stagger={0.06}>
             {VENTURES.map((venture) => (
               <RevealItem as="li" key={venture.slug}>
-                <Link href={ventureHref(venture.slug)} className="register__row">
-                  <span className="register__index">{venture.index}</span>
-                  <span className="register__name">{venture.name}</span>
-                  <span className="register__meta">
-                    <span className="register__purpose">{venture.purpose}</span>
+                <Tilt className="module" contentClassName="module__inner">
+                  <span className="module__index">{venture.index}</span>
+                  <Link href={ventureHref(venture.slug)} className="module__link">
+                    <span className="module__name">{venture.name}</span>
+                  </Link>
+                  <span className="module__purpose">{venture.purpose}</span>
+                  <span className="module__foot">
                     <span className="stage-tag">
                       <span className="stage-tag__dot" aria-hidden="true" />
                       {venture.stage}
                     </span>
+                    <span className="module__arrow" aria-hidden="true">&rarr;</span>
                   </span>
-                  <span className="register__arrow" aria-hidden="true">
-                    &rarr;
-                  </span>
-                </Link>
+                </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
 
-          <p className="note register__note">
+          <p className="note modules__note">
             Stage labels describe each initiative&rsquo;s current public stage. They
             are not statements of availability, traction, or launch timing, and
             this page is not a signup or contact route for any individual

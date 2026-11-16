@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Tilt } from "@/components/tilt";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { INTERNAL_PLATFORMS, SITE, VENTURES } from "@/lib/portfolio";
 
@@ -74,10 +75,12 @@ export default function WhatWeDoPage() {
 
           <RevealGroup as="ul" className="rows" stagger={0.07}>
             {AREAS.map((area) => (
-              <RevealItem as="li" key={area.n} className="rows__row">
+              <RevealItem as="li" key={area.n}>
+                <Tilt contentClassName="rows__row" max={2}>
                 <span className="mono-num rows__n">{area.n}</span>
                 <h3 className="t-row rows__title">{area.title}</h3>
                 <p className="prose rows__body">{area.body}</p>
+              </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -197,12 +200,12 @@ export default function WhatWeDoPage() {
               <p className="label">Internal tools, not products</p>
               <h3 className="t-row">Internal platforms</h3>
             </div>
-            <div className="cols cols--3">
+            <div className="cols cols--3 arch">
               {INTERNAL_PLATFORMS.map((platform) => (
-                <div key={platform.name} className="cols__item">
+                <Tilt key={platform.name} contentClassName="cols__item">
                   <p className="label label-accent">{platform.name}</p>
                   <p className="prose">{platform.body}</p>
-                </div>
+                </Tilt>
               ))}
             </div>
             <p className="note below-split">

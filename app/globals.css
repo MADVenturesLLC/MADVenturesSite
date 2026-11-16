@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
 /*
-  MAD Ventures — Black Concept B
+  MAD Ventures — Futuristic 3D
   ============================================================================
   Every value in this file comes from DESIGN.md. Read that first.
 
-  The site is a printed register on black stock: one ground, type as the only
-  loud element, hairlines for structure, and cobalt as punctuation. There are
-  no cards, gradients, glows, or shadows anywhere in this stylesheet, and none
-  should be added.
+  The site is a spatial instrument on a near-black ground: a live 3D stage
+  behind the page, translucent glass panels built from real Z-axis planes,
+  cobalt light, and mono telemetry. Glow, gradients, depth shadows, and
+  backdrop blur are part of the direction (Founder authorization, 2026-11-15).
+
+  Static-first: every panel is plain CSS and fully readable with no JavaScript.
+  Pointer tilt and the WebGL scene are enhancements that follow the motion
+  permission in components/motion-permission.tsx.
 */
 
 @theme {
@@ -36,6 +40,15 @@
   --line: #282b31;
   --cobalt: #146bff;
   --cobalt-text: #669fff;
+
+  /* Spatial tokens. --glass is #0e1013 at reduced opacity, over the stage. */
+  --glass: rgba(14, 16, 19, 0.74);
+  --glass-strong: rgba(14, 16, 19, 0.9);
+  --bevel: rgba(102, 159, 255, 0.2);
+  --bevel-soft: rgba(183, 187, 194, 0.12);
+  --depth: inset 0 1px 0 rgba(244, 241, 234, 0.06), 0 28px 60px -30px rgba(0, 0, 0, 0.95);
+  --glow: 0 0 28px rgba(20, 107, 255, 0.45);
+  --radius-panel: 6px;
 
   --radius: 2px;
   --page-max: 96rem;
@@ -283,43 +296,19 @@ ul, ol { list-style: none; }
 }
 
 /* --------------------------------------------------------------------------
-   Register — the initiative list
+   Stage tag — always reads exactly "In Development".
    -------------------------------------------------------------------------- */
-
-.register-band { padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(4rem, 8vw, 8.5rem); border-top: 1px solid var(--line); }
-.register-band > .shell > .label { margin-bottom: clamp(1.25rem, 2.4vw, 2rem); }
-
-.register { border-top: 1px solid var(--line); }
-.register__row {
-  position: relative; display: grid; gap: 0.5rem var(--col-gap); align-items: baseline;
-  padding-block: clamp(1.25rem, 2.4vw, 2.25rem); border-bottom: 1px solid var(--line);
-}
-.register__row::before { content: ""; position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--cobalt); transition: width var(--base) var(--ease-out); }
-.register__row:hover::before, .register__row:focus-visible::before { width: clamp(4rem, 14vw, 11rem); }
-.register__index { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--cobalt-text); }
-.register__name { font-size: clamp(1.75rem, 4.2vw, 4rem); font-weight: 800; line-height: 1; letter-spacing: -0.045em; color: var(--ink); text-wrap: balance; }
-.register__meta { display: grid; gap: 0.625rem; align-content: start; }
-.register__purpose { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); line-height: 1.5; color: var(--ink-soft); text-wrap: pretty; }
-.register__arrow { display: none; font-family: var(--font-mono); color: var(--ink-mute); transition: transform var(--base) var(--ease-out), color var(--fast) var(--ease); }
-.register__row:hover .register__arrow { transform: translateX(4px); color: var(--ink); }
-
-@media (min-width: 860px) {
-  .register__row { grid-template-columns: 3rem minmax(0, 8fr) minmax(0, 4fr) 1.5rem; }
-  .register__arrow { display: block; text-align: right; }
-}
-.register--tall .register__row { padding-block: clamp(1.75rem, 3.6vw, 3.25rem); }
-
-.register__note { margin-top: clamp(1.25rem, 2.4vw, 2rem); }
 
 .stage-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--ink-mute); white-space: nowrap; }
-.stage-tag__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cobalt); flex: none; }
+.stage-tag__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cobalt); box-shadow: 0 0 0 3px rgba(20, 107, 255, 0.18), 0 0 12px var(--cobalt); flex: none; }
 
 /* --------------------------------------------------------------------------
-   Ruled columns — parallel items share a top hairline. No boxes.
+   Columns — parallel items, each inside a spatial panel.
    -------------------------------------------------------------------------- */
 
-.cols { display: grid; gap: clamp(2rem, 4vw, 3rem) var(--col-gap); }
-.cols__item { display: grid; gap: 0.75rem; align-content: start; min-width: 0; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.cols { display: grid; gap: clamp(1rem, 2vw, 1.75rem); }
+.cols > * { min-width: 0; }
+.cols__item { display: grid; gap: 0.75rem; align-content: start; min-width: 0; }
 .cols__item .prose, .cols__item p { font-size: 1rem; line-height: 1.6; color: var(--ink-soft); }
 .cols__item .note { font-size: 0.875rem; color: var(--ink-mute); }
 .cols__item a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-mute); text-underline-offset: 0.25em; }
@@ -335,15 +324,15 @@ ul, ol { list-style: none; }
 .values__title { max-width: 22ch; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
 
 /* --------------------------------------------------------------------------
-   Rows — sequenced items: number, title, body.
+   Rows — sequenced items: number, title, body. One spatial panel per row.
    -------------------------------------------------------------------------- */
 
-.rows { border-top: 1px solid var(--line); }
-.rows__row { display: grid; gap: 0.5rem var(--col-gap); align-items: baseline; padding-block: clamp(1.5rem, 3vw, 2.5rem); border-bottom: 1px solid var(--line); }
+.rows { display: grid; gap: clamp(0.75rem, 1.5vw, 1.25rem); }
+.rows__row { display: grid; gap: 0.5rem var(--col-gap); align-items: baseline; }
 .rows__row > * { min-width: 0; }
 @media (min-width: 1024px) {
   .rows__row { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  .rows__n { grid-column: 1 / span 1; }
+  .rows__n { grid-column: 1 / span 1; color: var(--cobalt-text); }
   .rows__title { grid-column: 2 / span 4; }
   .rows__body { grid-column: 7 / span 6; }
 }
@@ -442,11 +431,16 @@ ul, ol { list-style: none; }
 .notfound__links { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; margin-top: clamp(2rem, 4vw, 3rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
 
 /* --------------------------------------------------------------------------
-   Conceptual figures — the only framed objects on the site.
-   The frame says "this is an illustration", so it is information.
+   Conceptual figures. Glass frames with telemetry styling; each one is
+   labeled as an illustration.
    -------------------------------------------------------------------------- */
 
-.concept, .figure__frame, .problem { border: 1px solid var(--line); border-radius: var(--radius); background: var(--raised); }
+.concept, .figure__frame, .problem {
+  border: 1px solid var(--bevel); border-radius: var(--radius-panel);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: var(--depth);
+}
 
 .concept { overflow: hidden; container-type: inline-size; container-name: concept; }
 .concept__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem; padding: 1rem clamp(1.25rem, 2.5vw, 2.25rem); border-bottom: 1px solid var(--line); }
@@ -569,4 +563,293 @@ ul, ol { list-style: none; }
   .problem__stage--volume { width: 100%; }
   .problem__link { width: 60%; }
   .problem__steps { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+}
+
+/* ==========================================================================
+   FUTURISTIC 3D LAYER
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Stage — the fixed 3D scene behind the page.
+   The gradients below are the static backdrop: they are what shows with no
+   JavaScript, before three.js loads, or where WebGL is unavailable.
+   -------------------------------------------------------------------------- */
+
+.stage {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  --glow-a-x: 78%; --glow-a-y: 34%; --glow-b-x: 12%; --glow-b-y: 88%; --glow-boost: 0.2;
+  background:
+    radial-gradient(64rem 44rem at var(--glow-a-x) var(--glow-a-y), rgba(20, 107, 255, var(--glow-boost)), transparent 62%),
+    radial-gradient(46rem 34rem at var(--glow-b-x) var(--glow-b-y), rgba(102, 159, 255, 0.14), transparent 65%),
+    var(--ground);
+}
+/* A faint perspective floor grid, so the space has depth without WebGL. */
+.stage::before {
+  content: ""; position: absolute; left: -50%; right: -50%; bottom: -10%; height: 62%;
+  background-image:
+    linear-gradient(rgba(102, 159, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 159, 255, 0.11) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(700px) rotateX(64deg); transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(to top, #000, transparent 85%); mask-image: linear-gradient(to top, #000, transparent 85%);
+}
+/* Scrim: keeps the left reading column dark while letting the spectrum glow breathe. */
+.stage::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(8, 9, 11, 0.72) 0%, rgba(8, 9, 11, 0.28) 46%, rgba(8, 9, 11, 0) 74%), linear-gradient(to top, rgba(8, 9, 11, 0.62), transparent 34%);
+}
+.stage__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 900ms var(--ease); }
+.stage__canvas[data-ready="true"] { opacity: 0.95; }
+
+main, .site-footer { position: relative; z-index: 1; }
+
+/* --------------------------------------------------------------------------
+   Spatial panel — four planes on the Z axis (see components/tilt.tsx).
+   glass 0 · grid +10px · ticks +22px · content +38px
+   -------------------------------------------------------------------------- */
+
+.spatial { position: relative; height: 100%; perspective: 1200px; --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 0%; min-width: 0; }
+.spatial__body {
+  position: relative; height: 100%; border-radius: var(--radius-panel);
+  transform-style: preserve-3d; transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 320ms var(--ease-out);
+}
+.spatial[data-lit="true"] .spatial__body { transition-duration: 90ms; }
+.spatial__glass, .spatial__grid, .spatial__glare, .spatial__ticks { position: absolute; border-radius: inherit; pointer-events: none; }
+.spatial__glass {
+  inset: 0;
+  background: linear-gradient(155deg, rgba(22, 26, 34, 0.8), var(--glass) 55%);
+  border: 1px solid var(--bevel-soft); border-top-color: var(--bevel);
+  box-shadow: var(--depth);
+  -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%);
+  transition: border-color var(--base) var(--ease), box-shadow var(--base) var(--ease);
+}
+.spatial__grid {
+  inset: 1px;
+  background-image:
+    linear-gradient(rgba(102, 159, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 159, 255, 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(110% 100% at 100% 0%, #000 0%, transparent 62%); mask-image: radial-gradient(110% 100% at 100% 0%, #000 0%, transparent 62%);
+}
+.spatial__glare {
+  inset: 0; opacity: 0; transition: opacity var(--base) var(--ease);
+  background: radial-gradient(26rem circle at var(--mx) var(--my), rgba(102, 159, 255, 0.2), rgba(20, 107, 255, 0.06) 40%, transparent 65%);
+}
+.spatial[data-lit="true"] .spatial__glare { opacity: 1; }
+.spatial__ticks {
+  inset: 7px; --t: var(--cobalt-text);
+  background:
+    linear-gradient(var(--t), var(--t)) 0 0 / 12px 1px, linear-gradient(var(--t), var(--t)) 0 0 / 1px 12px,
+    linear-gradient(var(--t), var(--t)) 100% 0 / 12px 1px, linear-gradient(var(--t), var(--t)) 100% 0 / 1px 12px,
+    linear-gradient(var(--t), var(--t)) 0 100% / 12px 1px, linear-gradient(var(--t), var(--t)) 0 100% / 1px 12px,
+    linear-gradient(var(--t), var(--t)) 100% 100% / 12px 1px, linear-gradient(var(--t), var(--t)) 100% 100% / 1px 12px;
+  background-repeat: no-repeat; opacity: 0.7;
+}
+.spatial__content { position: relative; height: 100%; padding: clamp(1.5rem, 2.6vw, 2.25rem); }
+
+.spatial:hover .spatial__glass, .spatial:has(a:focus-visible) .spatial__glass {
+  border-color: var(--bevel); border-top-color: var(--cobalt-text);
+  box-shadow: var(--depth), 0 0 0 1px rgba(20, 107, 255, 0.25), 0 0 44px -12px rgba(20, 107, 255, 0.55);
+}
+
+/* Real depth only where there is a mouse and room for it. Elsewhere the planes
+   sit flat, so nothing scales past the viewport on a phone. */
+@media (hover: hover) and (pointer: fine) and (min-width: 860px) {
+  .spatial__grid { transform: translateZ(10px); }
+  .spatial__glare { transform: translateZ(11px); }
+  .spatial__ticks { transform: translateZ(22px); }
+  .spatial__content { transform: translateZ(38px); }
+}
+
+/* --------------------------------------------------------------------------
+   Header and footer — translucent command bar, laser hairline.
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  background: rgba(8, 9, 11, 0.66); border-bottom-color: var(--bevel-soft);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header { background: var(--ground); }
+  .spatial__glass, .concept, .figure__frame, .problem { background: var(--glass-strong); }
+}
+.site-header::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--cobalt) 18%, var(--cobalt-text) 50%, var(--cobalt) 82%, transparent);
+  box-shadow: 0 0 14px rgba(20, 107, 255, 0.8); opacity: 0.75;
+}
+.site-header__link[aria-current="page"]::after { box-shadow: 0 0 10px var(--cobalt); }
+.mobile-nav { background: rgba(8, 9, 11, 0.94); }
+.site-footer { background: var(--glass-strong); border-top-color: var(--bevel); box-shadow: 0 -1px 24px -6px rgba(20, 107, 255, 0.35); }
+
+/* The cut becomes a laser: the same single bar per page, now lit. */
+.cut b { background: linear-gradient(90deg, var(--cobalt), var(--cobalt-text)); box-shadow: var(--glow), 0 0 2px var(--cobalt-text); }
+.cut i { background: linear-gradient(90deg, var(--bevel), transparent); }
+
+.btn-primary { box-shadow: 0 0 0 1px rgba(244, 241, 234, 0.2), 0 10px 40px -10px rgba(20, 107, 255, 0.7); }
+.btn-primary:hover { box-shadow: 0 0 0 1px #fff, 0 10px 46px -8px rgba(20, 107, 255, 0.95); }
+.section--rule { border-top-color: var(--bevel-soft); }
+.label-accent, .breadcrumb [aria-current="page"] { text-shadow: 0 0 18px rgba(20, 107, 255, 0.6); }
+
+/* --------------------------------------------------------------------------
+   Home — spatial hero
+   -------------------------------------------------------------------------- */
+
+.masthead { position: relative; min-height: min(92svh, 60rem); display: grid; align-content: center; }
+.wordmark { filter: drop-shadow(0 18px 40px rgba(20, 107, 255, 0.35)); }
+/* Each word carries its own light, so the stacked phone layout matches. */
+.wordmark span {
+  background: linear-gradient(180deg, #ffffff 0%, var(--ink) 40%, #9fb2d4 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--ink);
+}
+.mast__console .lead { max-width: none; }
+.mast__console .actions { margin-top: clamp(1.25rem, 2.2vw, 1.75rem); }
+@media (min-width: 1024px) {
+  .mast__body > :last-child { padding-bottom: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Initiative modules — replaces the flat register.
+   -------------------------------------------------------------------------- */
+
+.modules-band { padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(4rem, 8vw, 8.5rem); }
+.modules-band > .shell > .label { margin-bottom: clamp(1.25rem, 2.4vw, 2rem); }
+.modules { display: grid; gap: clamp(1rem, 2vw, 1.75rem); }
+.modules > * { min-width: 0; }
+@media (min-width: 860px) { .modules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.module__inner { display: grid; grid-template-rows: auto 1fr auto auto; gap: 0.875rem; min-height: clamp(15rem, 24vw, 20rem); }
+.modules--tall .module__inner { min-height: clamp(17rem, 28vw, 24rem); }
+.module__index { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.02em; color: var(--cobalt-text); text-shadow: 0 0 16px rgba(20, 107, 255, 0.7); }
+.module__link { align-self: end; color: var(--ink); }
+/* The whole panel is the link's hit area. */
+.module__link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-panel); }
+.module__link:focus-visible { outline: none; }
+.module__link:focus-visible::after { outline: 2px solid var(--cobalt-text); outline-offset: -4px; }
+.module__name { display: block; font-size: clamp(1.75rem, 3.4vw, 3.25rem); font-weight: 800; line-height: 0.98; letter-spacing: -0.045em; text-wrap: balance; }
+.module__purpose { font-size: clamp(0.9375rem, 1.15vw, 1.0625rem); line-height: 1.5; color: var(--ink-soft); max-width: 34rem; text-wrap: pretty; }
+.module__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.875rem; border-top: 1px solid var(--bevel-soft); }
+.module__arrow { font-family: var(--font-mono); color: var(--cobalt-text); transition: transform var(--base) var(--ease-out); }
+.spatial:hover .module__arrow { transform: translateX(5px); }
+.modules__note { margin-top: clamp(1.25rem, 2.4vw, 2rem); }
+
+/* --------------------------------------------------------------------------
+   Internal technology — three panels on one lit rail.
+   -------------------------------------------------------------------------- */
+
+.arch { position: relative; }
+@media (min-width: 800px) {
+  .arch::before {
+    content: ""; position: absolute; left: 4%; right: 4%; top: -1.25rem; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cobalt-text) 20%, var(--cobalt) 50%, var(--cobalt-text) 80%, transparent);
+    box-shadow: 0 0 12px rgba(20, 107, 255, 0.8);
+  }
+  .arch > *::before {
+    content: ""; position: absolute; left: 50%; top: -1.25rem; width: 1px; height: 1.25rem;
+    background: var(--cobalt-text); box-shadow: 0 0 10px var(--cobalt);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Founder, contact, lists — spatial adjustments
+   -------------------------------------------------------------------------- */
+
+.founder__monogram { -webkit-text-stroke: 2px var(--cobalt-text); color: rgba(8, 9, 11, 0.55); filter: drop-shadow(0 0 26px rgba(20, 107, 255, 0.55)); }
+.founder__facts { margin-top: 0; border-top: 0; }
+.founder__facts > div:first-child { padding-top: 0; }
+.founder__facts > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.founder__facts > div { border-bottom-color: var(--bevel-soft); }
+.founder__panel { margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
+.contact-box__email { text-shadow: 0 0 26px rgba(20, 107, 255, 0.45); }
+.contact-box__note { border-top-color: var(--bevel-soft); }
+.focus-list-plain { border-top: 0; display: grid; gap: 0; }
+.focus-list-plain li { border-bottom-color: var(--bevel-soft); }
+.focus-list-plain li:first-child { padding-top: 0; }
+.focus-list-plain li:last-child { padding-bottom: 0; border-bottom: 0; }
+.other-ventures { border-top-color: var(--bevel-soft); }
+.other-ventures a { border-bottom-color: var(--bevel-soft); }
+.notfound__links { border-top-color: var(--bevel-soft); }
+
+/* --------------------------------------------------------------------------
+   Conceptual figures — depth and telemetry
+   -------------------------------------------------------------------------- */
+
+.concept__head { border-bottom-color: var(--bevel-soft); background: linear-gradient(90deg, rgba(20, 107, 255, 0.12), transparent 60%); }
+.concept__note, .problem__steps, .problem__caption { border-top-color: var(--bevel-soft); }
+.signal-chain, .position-grid, .signal-cell, .position-cell { border-color: var(--bevel-soft); }
+@container concept (min-width: 620px) {
+  .signal-cell + .signal-cell, .position-cell + .position-cell { border-left-color: var(--bevel-soft); }
+}
+.signal-bar > span { box-shadow: 0 0 10px var(--cobalt), 0 0 2px var(--cobalt-text); }
+.signal-bar.is-quiet > span { box-shadow: none; }
+.position-cell__value { text-shadow: 0 0 22px rgba(20, 107, 255, 0.4); }
+
+/* The readiness record: three sheets on real Z planes. */
+.rr__stack { perspective: 1100px; transform-style: preserve-3d; }
+.rr__sheet { background: rgba(8, 9, 11, 0.92); border-color: var(--bevel-soft); box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.9); }
+.rr__sheet--back { transform: translate3d(-30px, -96px, -90px); }
+.rr__sheet--mid { transform: translate3d(-15px, -48px, -45px); }
+.rr__sheet--front { border-top-color: var(--cobalt-text); box-shadow: 0 -1px 18px -4px rgba(20, 107, 255, 0.7), 0 24px 50px -24px rgba(0, 0, 0, 0.9); }
+.rr__top, .rr__rows, .rr__row { border-color: var(--bevel-soft); }
+.rr__state--gap { text-shadow: 0 0 14px rgba(20, 107, 255, 0.8); }
+@media (max-width: 700px) {
+  .rr__sheet--back { transform: translate3d(-12px, -70px, -60px); }
+  .rr__sheet--mid { transform: translate3d(-6px, -35px, -30px); }
+}
+
+/* Build Room workflow */
+.workflow-svg .wf-stage { fill: rgba(8, 9, 11, 0.85); stroke: rgba(102, 159, 255, 0.35); }
+.workflow-svg .wf-decision { fill: rgba(20, 107, 255, 0.12); stroke: var(--cobalt-text); filter: drop-shadow(0 0 8px rgba(20, 107, 255, 0.7)); }
+.workflow-svg .wf-loop { filter: drop-shadow(0 0 4px rgba(20, 107, 255, 0.9)); }
+.workflow-step__card { background: rgba(8, 9, 11, 0.85); border-color: var(--bevel); }
+.workflow-step--decision .workflow-step__card { border-color: var(--cobalt-text); box-shadow: 0 0 18px -4px rgba(20, 107, 255, 0.7); }
+.workflow-step > .mono-num { background: transparent; }
+
+/* The method figure: the dense field recedes in perspective. */
+.problem__stage--volume { transform: perspective(900px) rotateX(38deg) rotateZ(-2deg); transform-origin: 50% 60%; }
+.pf-mark { background: rgba(183, 187, 194, 0.2); }
+.pf-mark--lit { background: var(--cobalt-text); box-shadow: 0 0 10px var(--cobalt), 0 0 22px rgba(20, 107, 255, 0.6); }
+.pf-chain { box-shadow: 0 0 8px var(--cobalt); }
+.pf-chain::after { background: var(--ground); box-shadow: 0 0 10px var(--cobalt); }
+.pf-act { box-shadow: 0 0 0 1px #fff, 0 0 40px rgba(102, 159, 255, 0.75); }
+
+/* --------------------------------------------------------------------------
+   Venture artwork (components/venture-artwork.tsx).
+   Conceptual illustrations, one per initiative, in the same depth language.
+   -------------------------------------------------------------------------- */
+
+.art {
+  position: relative; display: flex; flex-direction: column; gap: 1rem; min-height: 15rem; overflow: hidden;
+  padding: clamp(1.25rem, 2.5vw, 2rem); perspective: 900px;
+  border: 1px solid var(--bevel); border-radius: var(--radius-panel); background: var(--glass); box-shadow: var(--depth);
+}
+.art__label, .type-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--cobalt-text); }
+.art__caption { margin-top: auto; font-size: 0.875rem; line-height: 1.5; color: var(--ink-mute); }
+.art__field { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 0.3rem; flex: 1; align-content: center; transform: rotateX(42deg); transform-origin: 50% 70%; }
+.art__mark { display: block; aspect-ratio: 1; border-radius: 50%; background: rgba(183, 187, 194, 0.2); }
+.art__mark--heavy { background: var(--cobalt-text); box-shadow: 0 0 10px var(--cobalt), 0 0 22px rgba(20, 107, 255, 0.6); }
+.art__figure { display: grid; gap: 0.5rem; transform: rotateY(-14deg); transform-origin: 0 50%; }
+.art__figure-bar { display: block; height: 10px; background: linear-gradient(90deg, var(--cobalt), var(--cobalt-text)); box-shadow: 0 0 14px rgba(20, 107, 255, 0.7); }
+.art__figure-bar:nth-child(2) { background: var(--ink-soft); box-shadow: none; opacity: 0.6; }
+.art__figure-bar:nth-child(3) { background: var(--ink-mute); box-shadow: none; opacity: 0.45; }
+.art__orbit, .art__dims { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.25rem; }
+.art__orbit-item, .art__dims li { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--ink-mute); }
+.art__orbit-item i, .art__dim-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cobalt); box-shadow: 0 0 8px var(--cobalt); flex: none; }
+.art__sweep { position: relative; height: 2px; flex: 1; align-self: center; width: 100%; max-height: 2px; margin-block: auto; background: var(--bevel-soft); }
+.art__sweep-line { position: absolute; inset-block: -1px; left: 0; width: 34%; background: linear-gradient(90deg, transparent, var(--cobalt-text)); box-shadow: 0 0 12px var(--cobalt); }
+.art--mention { justify-content: center; border-style: dashed; }
+.art__mention-state { display: flex; align-items: center; gap: 0.5rem; font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.018em; color: var(--ink); }
+.art__mention-body { font-size: 0.9375rem; line-height: 1.6; color: var(--ink-soft); max-width: 30rem; }
+.art__mention-link a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--cobalt); text-decoration-thickness: 2px; text-underline-offset: 0.45em; }
+
+/* Interior page leads sit where the core is brightest, so they are seated on
+   glass to hold 4.5:1 contrast. */
+.page-head__lead {
+  max-width: none; padding: clamp(1.125rem, 2vw, 1.75rem);
+  border: 1px solid var(--bevel-soft); border-top-color: var(--bevel); border-radius: var(--radius-panel);
+  background: var(--glass); box-shadow: var(--depth);
+  -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .page-head__lead { background: var(--glass-strong); }
 }

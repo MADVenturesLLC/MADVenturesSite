@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem, StatementReveal } from "@/components/motion";
+import { Tilt } from "@/components/tilt";
 import { INTERNAL_PLATFORMS, SITE, VALUES, VENTURES, ventureHref } from "@/lib/portfolio";
 
 /**
- * Homepage, Black Concept B. Layout and styling follow DESIGN.md; every word
- * comes from COPY.md.
+ * Homepage, Futuristic 3D. Layout and styling follow DESIGN.md; every word
+ * comes from COPY.md. The live 3D core is mounted once, in app/layout.tsx.
  *
  * Constraints carried over from earlier review:
  *  - ONE ground for the whole page.
@@ -41,6 +42,7 @@ export default function HomePage() {
             </h1>
 
             <Reveal delay={0.12} className="mast__side">
+              <Tilt className="mast__console" max={4}>
               <p className="lead mast__sub">
                 Software that helps people understand what matters, decide clearly,
                 and move work forward.
@@ -53,38 +55,41 @@ export default function HomePage() {
                   Start a conversation <span className="arrow" aria-hidden="true">&rarr;</span>
                 </Link>
               </div>
+              </Tilt>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* The register of four initiatives. */}
-      <section className="register-band" aria-labelledby="initiatives-heading">
+      {/* The four initiatives, one spatial module each. */}
+      <section className="modules-band" aria-labelledby="initiatives-heading">
         <div className="shell">
           <p className="label" id="initiatives-heading">
             Software initiatives in development
           </p>
 
-          <RevealGroup as="ul" className="register" stagger={0.06}>
+          <RevealGroup as="ul" className="modules" stagger={0.06}>
             {VENTURES.map((venture) => (
               <RevealItem as="li" key={venture.slug}>
-                <Link href={ventureHref(venture.slug)} className="register__row">
-                  <span className="register__index">{venture.index}</span>
-                  <span className="register__name">{venture.name}</span>
-                  <span className="register__meta">
-                    <span className="register__purpose">{venture.purpose}</span>
+                <Tilt className="module" contentClassName="module__inner">
+                  <span className="module__index">{venture.index}</span>
+                  <Link href={ventureHref(venture.slug)} className="module__link">
+                    <span className="module__name">{venture.name}</span>
+                  </Link>
+                  <span className="module__purpose">{venture.purpose}</span>
+                  <span className="module__foot">
                     <span className="stage-tag">
                       <span className="stage-tag__dot" aria-hidden="true" />
                       {venture.stage}
                     </span>
+                    <span className="module__arrow" aria-hidden="true">&rarr;</span>
                   </span>
-                  <span className="register__arrow" aria-hidden="true">&rarr;</span>
-                </Link>
+                </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
 
-          <p className="note register__note">
+          <p className="note modules__note">
             All four are in development and none is available to use today. Each
             states its current stage plainly, including the one whose public
             scope is still being defined.
@@ -103,11 +108,13 @@ export default function HomePage() {
 
           <RevealGroup as="ul" className="cols cols--3" stagger={0.1}>
             {VALUES.map((value) => (
-              <RevealItem as="li" key={value.n} className="cols__item">
+              <RevealItem as="li" key={value.n}>
+                <Tilt contentClassName="cols__item">
                 <h3 className="verb__title">
                   {value.title} <span className="verb__lead">{value.lead}</span>
                 </h3>
                 <p>{value.body}</p>
+                </Tilt>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -136,6 +143,7 @@ export default function HomePage() {
                 Built by someone who has had to solve these problems with a team.
               </h3>
 
+              <Tilt className="founder__panel" max={3}>
               <dl className="founder__facts">
                 <div>
                   <dt className="label">Operating experience</dt>
@@ -154,6 +162,7 @@ export default function HomePage() {
                   </dd>
                 </div>
               </dl>
+              </Tilt>
             </Reveal>
           </div>
         </div>
@@ -171,13 +180,13 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="cols cols--3">
+            <div className="cols cols--3 arch">
               {INTERNAL_PLATFORMS.map((platform) => (
-                <div key={platform.name} className="cols__item">
+                <Tilt key={platform.name} contentClassName="cols__item">
                   <p className="label">Internal initiative</p>
                   <h3 className="cols__title">{platform.name}</h3>
                   <p>{platform.body}</p>
-                </div>
+                </Tilt>
               ))}
             </div>
             <p className="note below-split">
@@ -200,7 +209,7 @@ export default function HomePage() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <div className="invite__body">
+              <Tilt max={3} contentClassName="invite__body">
                 <p className="lead">
                   We are looking for people with a real operational problem worth
                   solving, a team that can be held to a standard, and the patience
@@ -215,7 +224,7 @@ export default function HomePage() {
                     <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
                   </p>
                 </div>
-              </div>
+              </Tilt>
             </Reveal>
           </div>
         </div>

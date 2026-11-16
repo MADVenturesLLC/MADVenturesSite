@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Tilt } from "@/components/tilt";
 import { Reveal } from "@/components/motion";
 import { SITE, VENTURES, getVenture, ventureHref } from "@/lib/portfolio";
 import { ConceptExample } from "@/components/concept-example";
@@ -107,7 +108,7 @@ export default async function VenturePage({
         <div className="shell">
           <Reveal>
             <div className="cols cols--3">
-              <div className="cols__item">
+              <Tilt contentClassName="cols__item">
                 <p className="label">Stage</p>
                 <p>
                   <span className="stage-tag">
@@ -120,22 +121,22 @@ export default async function VenturePage({
                   stage. It does not imply general availability or a committed launch
                   date.
                 </p>
-              </div>
+              </Tilt>
 
-              <div className="cols__item">
+              <Tilt contentClassName="cols__item">
                 <p className="label">Parent company</p>
                 <p>
                   Part of <Link href="/">MAD Ventures Holdings</Link>
                 </p>
-              </div>
+              </Tilt>
 
-              <div className="cols__item">
+              <Tilt contentClassName="cols__item">
                 <p className="label">Operating model</p>
                 <p>
                   A <Link href="/what-we-do/">MAD Ventures initiative</Link>, being
                   developed internally and not currently available.
                 </p>
-              </div>
+              </Tilt>
             </div>
           </Reveal>
         </div>
@@ -153,13 +154,13 @@ export default async function VenturePage({
 
             <div>
               <Reveal>
-                <div className="detail-block">
+                <Tilt max={2} contentClassName="detail-block">
                   <ul className="focus-list-plain">
                     {v.focus.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                </div>
+                </Tilt>
               </Reveal>
 
               <Reveal delay={0.08} className="below-list">
