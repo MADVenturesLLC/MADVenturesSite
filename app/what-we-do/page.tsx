@@ -22,7 +22,7 @@ const AREAS = [
   },
   {
     n: "03",
-    title: "Operate and hold",
+    title: "Move",
     body: "Running and improving the software after launch, and being honest about what is proven, what is not, and what still needs work.",
   },
 ];

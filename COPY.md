@@ -7,8 +7,8 @@ How this file was made: on 2026-11-15 the text was lifted from the site already
 in this repository, by reading the rendered pages of a local build. Nothing was
 written for this file. It includes the Red Social Room sentence approved on
 2026-11-15 and three lines reworded the same day so they stay true with Red
-Social Room listed. The Founder approved those three lines on 2026-11-16 (see
-"Reworded lines" at the end).
+Social Room listed. The Founder approved those three lines on 2026-11-16, and
+renamed one heading the same day (see "Reworded lines" at the end).
 
 Conventions:
 
@@ -207,7 +207,7 @@ Building the product and the systems that make it genuinely useful rather than m
 
 03
 
-##### Operate and hold
+##### Move
 
 Running and improving the software after launch, and being honest about what is proven, what is not, and what still needs work.
 
@@ -1008,3 +1008,10 @@ tools only. The Founder approved the current wording on 2026-11-16.
 | Home, internal tools heading | The internal tools we build our own software with. | The internal tools behind our own work. |
 | Home, internal tools note | Internal tools for building our own software. They are not venture initiatives, and nothing about their current state is presented as a product or a customer-facing capability. | Internal tools for our own work. They are not venture initiatives, and nothing about their current state is presented as a product or a customer-facing capability. |
 | What We Do, internal platforms footnote | Neither is a fifth or sixth venture, neither is offered to outside customers today, and no public availability, automation, or customer adoption is claimed for either. | None is an additional venture, none is offered to outside customers today, and no public availability, automation, or customer adoption is claimed for any of them. |
+
+One heading was renamed on 2026-11-16 at the Founder's instruction, because the
+original could echo the retired owning-and-operating framing.
+
+| Where | Original | Current (approved) |
+| --- | --- | --- |
+| What We Do, third step heading | Operate and hold | Move |
