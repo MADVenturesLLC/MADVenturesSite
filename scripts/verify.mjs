@@ -462,7 +462,6 @@ const SHIPPED = [
   ["app/companies/page.tsx", "/companies"],
   ["app/companies/[venture]/page.tsx", "company pages"],
   ["lib/portfolio.ts", "portfolio data"],
-  ["components/venture-artwork.tsx", "venture artwork"],
   ["components/concept-example.tsx", "concept examples"],
   ["components/site-footer.tsx", "site footer"],
   ["components/site-header.tsx", "site header"],
@@ -481,7 +480,7 @@ const SHIPPED = [
   British spelling does not trip the guard.
 */
 const BRITISH_SPELLING =
-  /\b(organis\w*|behaviour\w*|centre|summaris\w*|recognis\w*|prioritis\w*|utilis\w*|specialis\w*|judgement|travell\w*|cancelled|modelled|labelled|favour\w*|defence|fulfil\w*|programme|licence\w*|colour\w*|whilst|amongst|grey)\b/i;
+  /\b(organis\w*|authoris\w*|enquir\w*|behaviour\w*|centre|summaris\w*|recognis\w*|prioritis\w*|utilis\w*|specialis\w*|judgement|travell\w*|cancelled|modelled|labelled|favour\w*|defence|fulfil\w*|programme|licence\w*|colour\w*|whilst|amongst|grey)\b/i;
 
 {
   const spellingHits = [];

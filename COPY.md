@@ -197,7 +197,7 @@ How that works
 
 ##### Understand
 
-Starting from the problem someone actually has. Most software fails here, not in the code. it answers a question nobody was asking.
+Starting from the problem someone actually has. Most software fails here, not in the code. It answers a question nobody was asking.
 
 02
 
@@ -211,7 +211,7 @@ Building the product and the systems that make it genuinely useful rather than m
 
 Running and improving the software after launch, and being honest about what is proven, what is not, and what still needs work.
 
-Supporting detail. internal initiative
+Supporting detail. Internal initiative
 
 #### Build Room: coordinating software-building work.
 
@@ -285,7 +285,7 @@ Founder decision
 
 Approve, defer, or decline
 
-Conceptual Build Room workflow. Illustrates the operating model; does not assert live automation, production readiness, or deployment approval. Review passing is a separate step from founder release or deployment authorisation.
+Conceptual Build Room workflow. Illustrates the operating model; does not assert live automation, production readiness, or deployment approval. Review passing is a separate step from founder release or deployment authorization.
 
 Text description of this diagram
 
@@ -299,7 +299,7 @@ Corrections. Return findings to the builder, looping back to Build.
 
 Founder decision. Approve, defer, or decline. A person decides; the workflow does not grant release or deployment authority on its own.
 
-Supporting detail. internal initiative
+Supporting detail. Internal initiative
 
 #### MadOS: organizing the company’s work and technology.
 
@@ -485,7 +485,7 @@ verifiable
 
 Conceptual. An illustration of the stated development focus. A live page element, not a screenshot or a mockup of a shipped interface. Any figures or bar lengths shown are illustrative only and represent no measurement, metric, or verified product capability.
 
-Enquiries
+Inquiries
 
 #### Where to go next.
 
@@ -593,7 +593,7 @@ Personal finance · Visibility and control
 
 Conceptual. An illustration of the stated development focus. A live page element, not a screenshot or a mockup of a shipped interface. Any figures or bar lengths shown are illustrative only and represent no measurement, metric, or verified product capability.
 
-Enquiries
+Inquiries
 
 #### Where to go next.
 
@@ -697,7 +697,7 @@ A change that holds at one location can still fail at another. Readiness is esta
 
 Conceptual. An illustration of the stated development focus. A live page element, not a screenshot or a mockup of a shipped interface. Any figures or bar lengths shown are illustrative only and represent no measurement, metric, or verified product capability.
 
-Enquiries
+Inquiries
 
 #### Where to go next.
 
@@ -773,7 +773,7 @@ MAD Ventures initiative
 
 , being developed internally and not currently available.
 
-Enquiries
+Inquiries
 
 #### Where to go next.
 
@@ -819,7 +819,7 @@ Operating model
 
 ##### Problem
 
-Start from a specific, costly problem someone already has. not from a category we want to exist.
+Start from a specific, costly problem someone already has, not from a category we want to exist.
 
 02
 
@@ -961,7 +961,7 @@ Approved channel
 
 Share the context, the software you want to build or improve, and why MAD Ventures may be the right partner for it.
 
-If your enquiry is about using one of our software initiatives, please contact that team directly. We are not a customer support route.
+If your inquiry is about using one of our software initiatives, please contact that team directly. We are not a customer support route.
 
 Contact MAD Ventures
 

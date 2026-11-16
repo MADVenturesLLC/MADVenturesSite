@@ -1,28 +1,29 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
+import { useMotionPermission } from "./motion-permission";
 
 /**
  * Motion primitives.
  *
  * Two rules govern everything here:
- *  1. `useReducedMotion()` gates every animation. When it returns true, or when
- *     the visitor has paused motion, components render their FINAL state.
- *  2. Nothing that carries meaning lives only inside an animation. Text is in the
- *     DOM, and the exit state is the readable state.
+ *  1. `useMotionPermission()` gates every animation. When OS reduced-motion is
+ *     active OR the visitor has paused motion in the footer, components render
+ *     and settle in their final state immediately.
+ *  2. Nothing that carries meaning is ever hidden at `opacity: 0`. Text stays
+ *     visible in the DOM at every scroll position without waiting on JS.
  *
- * All movement is transform/opacity only.
+ * All movement is transform-only.
  */
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
-const EASE_STANDARD = [0.4, 0, 0.2, 1] as const;
 
-/** Fade and rise once on scroll into view. */
+/** Settle upward gently on scroll into view without ever hiding content. */
 export function Reveal({
   children,
   delay = 0,
-  y = 18,
+  y = 14,
   className,
   as = "div",
 }: {
@@ -32,16 +33,17 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "li" | "article" | "header";
 }) {
-  const reduced = useReducedMotion();
+  const { allowed } = useMotionPermission();
   const Cmp = motion[as];
 
-  // `useReducedMotion()` returns null before it resolves, so anything that is
-  // not explicitly `false` renders the FINAL state. Hidden-on-load is never
-  // the default, which means the page is readable before hydration and if the
-  // observer never fires.
-  if (reduced !== false) {
+  if (!allowed) {
     return (
-      <Cmp className={className} initial={false}>
+      <Cmp
+        className={className}
+        initial={false}
+        animate={{ y: 0 }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
@@ -50,10 +52,10 @@ export function Reveal({
   return (
     <Cmp
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: 0.7, ease: EASE_OUT_EXPO, delay }}
+      initial={{ y }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      transition={{ duration: 0.65, ease: EASE_OUT_EXPO, delay }}
     >
       {children}
     </Cmp>
@@ -75,12 +77,18 @@ export function RevealGroup({
   stagger?: number;
   as?: "div" | "ul" | "ol";
 }) {
-  const reduced = useReducedMotion();
+  const { allowed } = useMotionPermission();
   const Cmp = motion[as];
 
-  if (reduced !== false) {
+  if (!allowed) {
     return (
-      <Cmp className={className} initial={false}>
+      <Cmp
+        className={className}
+        initial={false}
+        animate="visible"
+        variants={{ visible: { transition: { staggerChildren: 0 } } }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
@@ -91,7 +99,7 @@ export function RevealGroup({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       variants={{ visible: { transition: { staggerChildren: stagger } } }}
     >
       {children}
@@ -100,11 +108,10 @@ export function RevealGroup({
 }
 
 export const revealItemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { y: 12 },
   visible: {
-    opacity: 1,
     y: 0,
-    transition: { duration: 0.66, ease: EASE_OUT_EXPO },
+    transition: { duration: 0.6, ease: EASE_OUT_EXPO },
   },
 };
 
@@ -117,12 +124,17 @@ export function RevealItem({
   className?: string;
   as?: "div" | "li" | "article";
 }) {
-  const reduced = useReducedMotion();
+  const { allowed } = useMotionPermission();
   const Cmp = motion[as];
 
-  if (reduced !== false) {
+  if (!allowed) {
     return (
-      <Cmp className={className} initial={false}>
+      <Cmp
+        className={className}
+        initial={false}
+        animate={{ y: 0 }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
@@ -138,20 +150,8 @@ export function RevealItem({
 /**
  * Opening-statement reveal.
  *
- * Two defects this replaced, both worth recording:
- *
- *  1. It used to move each line to `y: 108%` inside an overflow-hidden mask,
- *     which made the headline invisible until an animation ran.
- *     `useReducedMotion()` returns null before it resolves, so the animated path
- *     was taken on first paint and the statement could sit clipped and
- *     unreadable. Headline text must never depend on JavaScript.
- *
- *  2. It used to render hand-authored line breaks, which silently broke at
- *     widths the author never checked ("and operate / companies").
- *
- * The fix is to animate only what is safe: the text never moves and is never
- * translated out of its own box. A clip-path mask reveals it top-down once
- * motion is confirmed. Default state is fully visible.
+ * The text never moves out of its own box and default state is fully visible.
+ * A clip-path mask reveals it top-down once motion permission is confirmed.
  */
 export function StatementReveal({
   text,
@@ -160,33 +160,18 @@ export function StatementReveal({
   text: string;
   className?: string;
 }) {
-  const reduced = useReducedMotion();
+  const { allowed } = useMotionPermission();
   const [armed, setArmed] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setArmed(!mq.matches);
-    mq.addEventListener("change", update);
-
-    /*
-      Seed on the next frame rather than synchronously in the effect body.
-      Two reasons, both real: React flags a synchronous setState here as a
-      cascading render, and the browser gets to paint the readable statement
-      before any animation starts. If the frame never runs, the statement is
-      simply already visible.
-    */
-    const frame = requestAnimationFrame(update);
-
-    return () => {
-      mq.removeEventListener("change", update);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
+    const frame = requestAnimationFrame(() => setArmed(allowed));
+    return () => cancelAnimationFrame(frame);
+  }, [allowed]);
 
   return (
     <span
       className={className}
-      data-armed={armed && reduced === false ? "true" : undefined}
+      data-armed={armed && allowed ? "true" : undefined}
     >
       {text}
     </span>
@@ -195,9 +180,9 @@ export function StatementReveal({
 
 /** A hairline that draws in from the left when scrolled into view. */
 export function DrawRule({ className }: { className?: string }) {
-  const reduced = useReducedMotion();
+  const { allowed } = useMotionPermission();
 
-  if (reduced !== false) return <hr className={className ?? "rule"} />;
+  if (!allowed) return <hr className={className ?? "rule"} />;
 
   return (
     <motion.hr
@@ -211,29 +196,4 @@ export function DrawRule({ className }: { className?: string }) {
   );
 }
 
-/**
- * Ambient light travelling a vertical spine.
- *
- * Perpetual but nonessential, and therefore pausable and reduced-motion aware.
- */
-export function SpinePulse({ className }: { className?: string }) {
-  const reduced = useReducedMotion();
-  if (reduced !== false) return null;
-
-  return (
-    <motion.span
-      className={className}
-      aria-hidden="true"
-      initial={{ y: 0, opacity: 0 }}
-      animate={{ y: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
-      transition={{
-        duration: 4.2,
-        ease: EASE_STANDARD,
-        repeat: Infinity,
-        repeatDelay: 0.6,
-      }}
-    />
-  );
-}
-
-export { EASE_OUT_EXPO, EASE_STANDARD };
+export { EASE_OUT_EXPO };

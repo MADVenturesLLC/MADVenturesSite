@@ -52,8 +52,7 @@ function setWidthEm(name: string): number {
 /**
  * Initiative page. Layout follows DESIGN.md: the initiative's name is the
  * composition, sized to fill the measure the way the wordmark does on the
- * homepage. The three facts sit beneath as ruled columns, never as a boxed
- * panel.
+ * homepage. The three facts sit beneath as spatial depth panels.
  */
 export default async function VenturePage({
   params,
@@ -190,7 +189,7 @@ export default async function VenturePage({
         <div className="shell">
           <div className="split">
             <Reveal>
-              <p className="label">Enquiries</p>
+              <p className="label">Inquiries</p>
               <h2 id="next-heading" className="t-heading">
                 Where to go next.
               </h2>

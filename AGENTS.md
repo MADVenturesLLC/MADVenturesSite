@@ -29,9 +29,10 @@ in cobalt. Content sits in translucent spatial panels built from real Z-axis
 planes (`components/tilt.tsx`), with pointer tilt, HUD corner ticks and mono
 telemetry. The oversized MAD VENTURES wordmark stays.
 
-Unchanged: background #08090B; primary text #F4F1EA; secondary #B7BBC2; accent
-#146BFF; cobalt text #669FFF; Hanken Grotesk and IBM Plex Mono; the supplied
-monograms. Still avoid generic SaaS card grids and invented metrics.
+Unchanged: background #08090B; primary text #F4F1EA; secondary #B7BBC2 (with body
+copy on glass at #C8CDD6 per DESIGN.md); accent #146BFF; cobalt text #669FFF;
+Hanken Grotesk and IBM Plex Mono; the supplied monograms. Still avoid generic SaaS
+card grids and invented metrics.
 Preserve keyboard focus, 4.5:1 text contrast, mobile readability and
 reduced-motion/static fallbacks. The site is static-first: essential content
 must not depend on JavaScript, WebGL or animation, and all motion follows
