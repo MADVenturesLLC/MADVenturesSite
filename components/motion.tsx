@@ -38,7 +38,12 @@ export function Reveal({
 
   if (!allowed) {
     return (
-      <Cmp className={className} initial={false} animate={{ y: 0 }}>
+      <Cmp
+        className={className}
+        initial={false}
+        animate={{ y: 0 }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
@@ -77,7 +82,13 @@ export function RevealGroup({
 
   if (!allowed) {
     return (
-      <Cmp className={className} initial={false} animate="visible">
+      <Cmp
+        className={className}
+        initial={false}
+        animate="visible"
+        variants={{ visible: { transition: { staggerChildren: 0 } } }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
@@ -118,7 +129,12 @@ export function RevealItem({
 
   if (!allowed) {
     return (
-      <Cmp className={className} initial={false} animate="visible">
+      <Cmp
+        className={className}
+        initial={false}
+        animate={{ y: 0 }}
+        transition={{ duration: 0 }}
+      >
         {children}
       </Cmp>
     );
