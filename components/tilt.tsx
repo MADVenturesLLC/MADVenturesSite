@@ -6,8 +6,8 @@ import { useMotionPermission } from "./motion-permission";
 /**
  * A spatial panel (DESIGN.md, section 6).
  *
- * Four planes on the Z axis: a frosted-glass backing, an etched grid, corner
- * ticks, and the content floating in front. With a mouse, the panel tilts
+ * Four planes on the Z axis: the content at zero, so text stays sharp, with
+ * corner ticks, an etched grid, and a frosted-glass backing receding behind it. With a mouse, the panel tilts
  * toward the pointer and a soft spotlight follows it.
  *
  * The panel is fully readable with no JavaScript: the planes are plain CSS and

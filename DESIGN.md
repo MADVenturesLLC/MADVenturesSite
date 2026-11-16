@@ -13,8 +13,8 @@ truthfulness rule are unchanged. Copy comes only from `COPY.md`.
 
 The site is a spatial instrument floating in deep space. A 3D core turns
 slowly behind every page. Content sits in front of it on glass panels that
-have real depth: a backing, an etched grid, corner ticks, and type that floats
-forward. Panels tilt toward the pointer.
+have real depth: a backing, an etched grid, and corner ticks receding behind
+type that stays sharp on the surface. Panels tilt toward the pointer.
 
 The site's first job is still to let a visitor read about the software.
 Contact is the second job. The 3D is atmosphere and structure; it never
@@ -27,7 +27,8 @@ carries information a visitor needs.
 | Ground | `#08090B` | The page background and the base of the stage |
 | Raised | `#0E1013` | The base of every glass surface |
 | Text | `#F4F1EA` | Headings, names, the wordmark, the filled button |
-| Secondary | `#B7BBC2` | Body copy |
+| Secondary | `#B7BBC2` | Navigation, metadata, and small supporting text |
+| Body | `#C8CDD6` | Paragraphs: leads, prose, and panel copy on glass |
 | Quiet | `#8A9097` | Annotations, notes, breadcrumbs |
 | Cobalt | `#146BFF` | Light: glows, the laser cut, stage dots, the key light |
 | Cobalt text | `#669FFF` | Cobalt as text, ticks, and thin lines, for legibility |
@@ -57,16 +58,23 @@ Both are bundled at build time.
 
 | Role | Family, weight | Size | Leading | Tracking |
 | --- | --- | --- | --- | --- |
-| Wordmark | Hanken 800 | fills the measure | 0.82 | -0.055em |
-| Venture title | Hanken 800 | fills the measure, up to 13rem | 0.88 | -0.055em |
-| Page title | Hanken 800 | 2.5rem to 5.5rem | 0.96 | -0.045em |
-| Module name | Hanken 800 | 1.75rem to 3.25rem | 0.98 | -0.045em |
-| Section heading | Hanken 800 | 1.875rem to 3.5rem | 1.02 | -0.035em |
-| Row title | Hanken 700 | 1.375rem to 2rem | 1.12 | -0.028em |
-| Lead | Hanken 400 | 1.125rem to 1.4375rem | 1.5 | 0 |
-| Body | Hanken 400 | 1.0625rem | 1.65 | 0 |
+| Wordmark | Hanken 800 | fills the measure | 0.82 | -0.035em |
+| Venture title | Hanken 800 | fills the measure, up to 13rem | 0.9 | -0.035em |
+| Count figure | Hanken 800 | 2.5rem to 4rem | 0.9 | -0.035em |
+| Page title | Hanken 700 | 2.5rem to 5.5rem | 1.0 | -0.032em |
+| Module name | Hanken 700 | 1.75rem to 3.25rem | 1.06 | -0.028em |
+| Verb title | Hanken 700 | 1.875rem to 3rem | 1.06 | -0.028em |
+| Section heading | Hanken 700 | 1.875rem to 3.5rem | 1.06 | -0.026em |
+| Row and column title | Hanken 600 | 1.375rem to 2rem | 1.15 | -0.02em |
+| Lead | Hanken 400 | 1.125rem to 1.375rem | 1.6 | 0 |
+| Body | Hanken 400 | 1.0625rem | 1.7 | 0 |
+| Panel copy | Hanken 400 | 1rem | 1.65 | 0 |
 | Note | Hanken 400 | 0.875rem | 1.6 | 0 |
 | Telemetry | Plex Mono 400 | 0.75rem to 0.8125rem | 1.5 | 0.02em |
+
+Weight carries rank: 800 is reserved for the wordmark, venture titles, and
+the count figure; 700 for titles and headings; 600 for row and column titles;
+400 for reading text.
 
 Rules:
 
@@ -76,7 +84,14 @@ Rules:
   section labels. No telemetry text is invented for decoration.
 - The wordmark carries a white-to-ice vertical gradient and a cobalt
   under-glow. No other heading uses gradient text.
-- Body lines stay under 75 characters.
+- Leads and prose are capped at 62 characters per line and set in the Body
+  color. Body lines stay under 75 characters.
+- Display type is set with `text-rendering: optimizeLegibility` and kerning
+  on.
+- Telemetry and numbers use tabular figures (`tnum`) and Plex Mono's `ss01`
+  alternate, so 01 to 04 and metadata align in columns.
+- Text is never moved on the Z axis. Depth belongs to the planes behind it,
+  so type always sits on the pixel grid.
 
 ## 4. Space and grid
 
@@ -110,8 +125,10 @@ Rules:
 ## 6. Components
 
 **Spatial panel** (`components/tilt.tsx`). The basic container. Four planes:
-glass backing at 0, etched grid at +10px, corner ticks at +22px, content at
-+38px, under a 1200px perspective. With a mouse it tilts up to 5 degrees
+content at 0, corner ticks at -6px, cursor spotlight at -15px, etched grid at
+-16px, and glass backing at -26px, under a 1200px perspective. Each receding
+plane is scaled to keep its drawn size at rest, so the depth shows only as
+parallax when the panel tilts and the text stays sharp. With a mouse it tilts up to 5 degrees
 toward the pointer and a radial spotlight follows the cursor. On hover or
 focus the top edge lights cobalt. On touch devices and narrow screens the
 planes sit flat.
