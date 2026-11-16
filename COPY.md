@@ -7,7 +7,8 @@ How this file was made: on 2026-11-15 the text was lifted from the site already
 in this repository, by reading the rendered pages of a local build. Nothing was
 written for this file. It includes the Red Social Room sentence approved on
 2026-11-15 and three lines reworded the same day so they stay true with Red
-Social Room listed (see "Pending approval" at the end).
+Social Room listed. The Founder approved those three lines on 2026-11-16 (see
+"Reworded lines" at the end).
 
 Conventions:
 
@@ -996,13 +997,13 @@ Partnership
 
 ---
 
-## Pending approval
+## Reworded lines
 
 These three lines were reworded on 2026-11-15 when Red Social Room was added,
 because the original wording described tools for building software and for two
-tools only. The Founder has not yet approved the new wording.
+tools only. The Founder approved the current wording on 2026-11-16.
 
-| Where | Original | Current |
+| Where | Original | Current (approved) |
 | --- | --- | --- |
 | Home, internal tools heading | The internal tools we build our own software with. | The internal tools behind our own work. |
 | Home, internal tools note | Internal tools for building our own software. They are not venture initiatives, and nothing about their current state is presented as a product or a customer-facing capability. | Internal tools for our own work. They are not venture initiatives, and nothing about their current state is presented as a product or a customer-facing capability. |
