@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type PointerEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type PointerEvent, type ReactNode } from "react";
 import { useMotionPermission } from "./motion-permission";
 
 /**
@@ -30,6 +30,20 @@ export function Tilt({
   const ref = useRef<HTMLDivElement>(null);
   const { allowed } = useMotionPermission();
 
+  const reset = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.removeProperty("--rx");
+    el.style.removeProperty("--ry");
+    el.style.removeProperty("--mx");
+    el.style.removeProperty("--my");
+    delete el.dataset.lit;
+  }, []);
+
+  useEffect(() => {
+    if (!allowed) reset();
+  }, [allowed, reset]);
+
   const handleMove = (event: PointerEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el || !allowed || event.pointerType !== "mouse") return;
@@ -43,20 +57,12 @@ export function Tilt({
     el.dataset.lit = "true";
   };
 
-  const handleLeave = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.removeProperty("--rx");
-    el.style.removeProperty("--ry");
-    delete el.dataset.lit;
-  };
-
   return (
     <div
       ref={ref}
       className={className ? `spatial ${className}` : "spatial"}
       onPointerMove={handleMove}
-      onPointerLeave={handleLeave}
+      onPointerLeave={reset}
     >
       <div className="spatial__body">
         <span className="spatial__glass" aria-hidden="true" />
