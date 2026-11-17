@@ -6,27 +6,61 @@ import { useEffect, useState } from "react";
  * Global motion state.
  *
  * `useMotionPermission()` resolves once, after mount, whether animation should
- * run. Reduced-motion is the default-deny: unless the visitor has not asked for
- * reduced motion AND has not paused, nothing animates.
+ * run. On initial visit, OS `prefers-reduced-motion: reduce` defaults motion to
+ * off; an explicit visitor choice via the footer control ("on" or "paused")
+ * takes precedence so clicking "Play motion" always enables movement even when
+ * the OS preference is set to reduce motion.
  *
  * Every consumer treats `allowed === false` as "render the final state". No
  * content is ever gated behind an animation completing, so a false here is
  * always safe.
  */
+
+const KEY = "mad-motion";
+type Preference = "on" | "paused";
+let memoryPreference: Preference | null = null;
+
+function readStored(): Preference | null {
+  try {
+    const val = window.localStorage.getItem(KEY);
+    if (val === "on" || val === "paused") return val;
+  } catch {
+    // Storage unavailable; fall back to in-session memory preference.
+  }
+  return memoryPreference;
+}
+
+export function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+export function setMotionPaused(paused: boolean) {
+  const next: Preference = paused ? "paused" : "on";
+  memoryPreference = next;
+  try {
+    window.localStorage.setItem(KEY, next);
+  } catch {
+    // Storage unavailable. The in-session memory state still applies.
+  }
+  window.dispatchEvent(new CustomEvent("mad-motion-change", { detail: !paused }));
+}
+
 export function useMotionPermission() {
   const [allowed, setAllowed] = useState(false);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const resolve = () => {
-      const reduced = prefersReducedMotion();
       const stored = readStored();
-      setAllowed(reduced ? false : stored !== "paused");
+      const next =
+        stored === "on" ? true : stored === "paused" ? false : !prefersReducedMotion();
+      setAllowed(next);
       setReady(true);
+      document.documentElement.dataset.motion = next ? "on" : "paused";
     };
 
     resolve();
-    // The OS preference and the in-page control can both change under us.
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     mq.addEventListener("change", resolve);
     window.addEventListener("mad-motion-change", resolve);
@@ -39,35 +73,11 @@ export function useMotionPermission() {
   return { allowed, ready };
 }
 
-const KEY = "mad-motion";
-
-function readStored(): string | null {
-  try {
-    return window.localStorage.getItem(KEY);
-  } catch {
-    return null;
-  }
-}
-
-export function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-export function setMotionPaused(paused: boolean) {
-  try {
-    window.localStorage.setItem(KEY, paused ? "paused" : "on");
-  } catch {
-    // Storage unavailable. The in-session state still applies.
-  }
-  window.dispatchEvent(new CustomEvent("mad-motion-change", { detail: !paused }));
-}
-
 /**
  * Persistent nonessential motion control.
  *
- * Present so a visitor can always stop ambient movement. It is deliberately a
- * small footer affordance rather than a floating overlay.
+ * Present so a visitor can always stop or resume ambient movement. It is
+ * deliberately a small footer affordance rather than a floating overlay.
  */
 export function MotionToggle() {
   const { allowed, ready } = useMotionPermission();

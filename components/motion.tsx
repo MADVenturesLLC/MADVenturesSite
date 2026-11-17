@@ -8,9 +8,11 @@ import { useMotionPermission } from "./motion-permission";
  * Motion primitives.
  *
  * Two rules govern everything here:
- *  1. `useMotionPermission()` gates every animation. When OS reduced-motion is
- *     active OR the visitor has paused motion in the footer, components render
- *     and settle in their final state immediately.
+ *  1. `useMotionPermission()` gates every animation. On initial visit, OS
+ *     reduced-motion defaults motion to off, while an explicit visitor choice
+ *     via the footer control ("on" / "paused") takes precedence; whenever motion
+ *     is disallowed, components render and settle in their final state
+ *     immediately.
  *  2. Nothing that carries meaning is ever hidden at `opacity: 0`. Text stays
  *     visible in the DOM at every scroll position without waiting on JS.
  *

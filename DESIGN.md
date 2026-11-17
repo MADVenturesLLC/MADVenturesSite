@@ -191,9 +191,10 @@ large.
 
 - The page is complete and readable with no JavaScript, no WebGL, and no
   animation.
-- All motion follows one permission (`components/motion-permission.tsx`): it
-  is off when the visitor prefers reduced motion or pauses it with the footer
-  control.
+- All motion follows one permission (`components/motion-permission.tsx`): on
+  initial visit it defaults to off when the visitor prefers reduced motion,
+  while an explicit visitor choice with the footer control (`Play motion` /
+  `Pause motion`) takes precedence.
 - With motion off, the stage renders one still frame and ignores the pointer
   and scrolling; panels do not tilt and the spotlight does not follow.
 - Tilt never runs for touch input.
